@@ -26,7 +26,7 @@ function App() {
           <Route exact path="/register" element={<Register/>}/>
           <Route exact path="/login" element={<Login />}/>
           <Route exact path="/logout" element={<Logout />} />
-          <Route exact path="/profile" element={<Profile />} />
+          <Route exact path="/profile" element={<RequireAuth child={Profile} auth={true} />} />
           {/*<Route exact path="/search" element={<Search />} />
           <Route exact path="/details/:id" element={<Details />} />*/}
           <Route exact path="/basket" element={<Basket />} />

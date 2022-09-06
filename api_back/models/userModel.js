@@ -62,7 +62,17 @@ class UserModel {
     }
 
     static updateProfile(id, req) {
-        return db.query("UPDATE users SET lastName=trim(?), firstName=trim(?), address=trim(?), zip=?, city=trim(?) WHERE id=?", [req.body.lastName, req.body.firstName, req.body.address, req.body.zip, req.body.city, id])
+        return db.query("UPDATE users SET lastName=trim(?), firstName=trim(?), birthDate=?, address=trim(?), zip=?, city=trim(?) WHERE id=?", [req.body.lastName, req.body.firstName, req.body.birthDate, req.body.address, req.body.zip, req.body.city, id])
+            .then((result) => {
+                return result;
+            })
+            .catch((err) => {
+                return err;
+            })
+    }
+
+    static updateProfilePhoto(id, req) {
+        return db.query("UPDATE users SET photo=? WHERE id=?", [req.body.imageUrl, id])
             .then((result) => {
                 return result;
             })

@@ -41,3 +41,13 @@ export const updateProfile = (data) => {
         return err;
     })
 }
+
+export const changePhoto = (data) => {
+    return axios.put(`${config.API_URL}/api/v1/updateProfilePhoto`, data, {headers: {'x-access-token': token}})
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}

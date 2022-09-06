@@ -2,25 +2,43 @@ import React, {useState, useEffect} from 'react';
 import {Navigate} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
 import {selectUser, afterUpdateProfile} from '../../slices/userSlice'
-import {updateProfile} from '../../api/user';
+import {findUserById, updateProfile, changePhoto} from '../../api/user';
+import {Image, Video, Transformation, CloudinaryContext} from "cloudinary-react";
 
 const Profile = (props) => {
 
-    const user = useSelector(selectUser)
-    const [lastName, setLastName] = useState(user.data.lastName);
-    const [firstName, setFirstName] = useState(user.data.firstName);
-    const [email, setEmail] = useState(user.data.email);
-    const [birthDate, setBirthDate] = useState(user.data.birthDate);
+    const user = useSelector(selectUser);
+    const cloudName = "dppxvyyuu";
+    const [lastName, setLastName] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [photo, setPhoto] = useState("");
+    const [email, setEmail] = useState("");
+    const [birthDate, setBirthDate] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
-    const [address, setAddress] = useState(user.data.address);
-    const [zip, setZip] = useState(user.data.zip);
-    const [city, setCity] = useState(user.data.city);
+    const [address, setAddress] = useState("");
+    const [zip, setZip] = useState("");
+    const [city, setCity] = useState("");
 
     const [error, setError] = useState(null);
     const [redirect, setRedirect] = useState(false);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        setLastName(user.data.lastName);
+        setFirstName(user.data.firstName);
+        setPhoto(user.data.photo);
+        setEmail(user.data.email);
+        setBirthDate(user.data.birthDate.substring(0, 10));
+        setAddress(user.data.address);
+        setZip(user.data.zip);
+        setCity(user.data.city);
+
+        if (!user.isLogged) {
+            setRedirect(true);
+        }
+    }, [user])
 
     const onSubmitForm = () => {
         let user = {
@@ -58,14 +76,95 @@ const Profile = (props) => {
 
     }
 
+    // Callback triggered when a file is sent
+    const checkUploadResult = (result) => {
+        setError(null);
+
+        // if file is sent successfully
+        if (result.event === "success") {
+            console.log("[Result] ", result);
+            console.log("[Result info] ", result.info);
+
+            let data = {
+                imageUrl: result.info.public_id,
+                id: user.data.id
+            }
+
+            changePhoto(data)
+                .then((res) => {
+                    if (res.status === 200) {
+
+                        let myUser = res.user;
+                        myUser.token = res.token;
+        
+                        dispatch(afterUpdateProfile(myUser));
+                        setPhoto(myUser.photo);
+                    }
+                    else {
+                        setError("L'image n'a pas été modifiée");
+                        console.error(result);
+                    }
+                })
+                .catch((err) => {
+                    setError("Une erreur est survenue lors de la modification de l'image");
+                    console.error(err);
+                })
+
+        }
+        else {
+            setError("Erreur lors de l'envoi du fichier");
+        }
+    }
+
+    // function to display images and videos loading cloudinary interface
+    const showWidget = () => {
+        
+        // interface settings
+        //console.log("window.cloudinary", cloudinary);
+        let widget = window.cloudinary.createUploadWidget({
+            cloudName: cloudName,
+            uploadPreset: "fsjs14", //directory where files must be sent
+            maxImageWidth: 1024, // image max size
+            maxImageHeight: 1024, // image max size
+            cropping: false
+        },
+        (err, res) => {
+            if (err) {
+                console.error(err);
+            }
+            checkUploadResult(res); // call callback
+        })
+
+        // opening interface
+        widget.open();
+    }
+
+    if (!user.isLogged) {
+        return <Navigate to="/" />
+    }
+
     return (
         <>
             <h1>Profil de {user.data.firstName} {user.data.lastName}</h1>
+            
             <form className="c-form"
                   onSubmit={(e) => {
                     e.preventDefault();
                     onSubmitForm();
                   }}>
+                { photo !== null && <CloudinaryContext cloudName={cloudName}>
+                    <div>
+                        <Image publicId={photo} id="profileImg">
+                            <Transformation quality="auto" fetchFormat="auto" />
+                        </Image>
+                    </div>
+                </CloudinaryContext>}
+                    {/*photo && <img src="{photo}" alt="photo" />*/}
+
+                <button onClick={(e) => {
+                    e.preventDefault();
+                    showWidget();
+                }}>Changer ma photo de profil</button>
                 <input type="text"
                         placeholder="Votre nom"
                         onChange={(e) => {

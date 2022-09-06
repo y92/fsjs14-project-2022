@@ -18,7 +18,8 @@ module.exports = (app, db) => {
             res.json({status: 500, error: user})
         }
         else {
-            res.json(user)
+            user[0].password = undefined;
+            res.json({status: 200, user: user[0] })
         }
     })
 
@@ -67,6 +68,7 @@ module.exports = (app, db) => {
         }
     })
 
+    // login route
     app.post('/api/v1/login', async (req, res, next) => {
 
         if (!req.body.email || req.body.email.trim().length < 1) {
@@ -102,6 +104,7 @@ module.exports = (app, db) => {
         }
     })
 
+    // update profile data
     app.put('/api/v1/updateProfile', withAuthUser, async (req, res, next) => {
         //let id = req.params.id;
         console.log("[updateProfile]", req.body)
@@ -146,6 +149,21 @@ module.exports = (app, db) => {
                 //console.log("updatedUser", updatedUser)
                 res.json({status: 200, token: req.headers['x-access-token'], user: updatedUser[0]})
             }
+        }
+    })
+
+    // update profile photo
+    app.put('/api/v1/updateProfilePhoto', withAuthUser, async (req, res, next) =>{
+        console.log("[updateProfilePhoto]", req.body);
+
+        let user = await UserModel.updateProfilePhoto(req.id, req);
+
+        if (user.code) {
+            res.json({ status: 500, error: user});
+        }
+        else {
+            let updatedUser = await UserModel.getUserById(req.id);
+            res.json({status: 200, token: req.headers['x-access-token'], user: updatedUser[0]});
         }
     })
 }
