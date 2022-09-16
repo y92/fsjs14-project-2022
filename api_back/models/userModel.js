@@ -24,17 +24,7 @@ class UserModel {
     static getUserByEmail(email) {
         return db.query("SELECT * FROM users WHERE trim(lower(email))=trim(lower(?))", [email])
             .then((user) => {
-                console.log('user', user);
-
-                if (user.length === 0) {
-                    return {
-                        status: 401,
-                        error: "L'utilisateur demandé n'existe pas"
-                    }
-                }
-                else {
-                    return user;
-                }
+                return user;
             })
             .catch((err) => {
                 return err;
@@ -44,17 +34,7 @@ class UserModel {
     static getUserById(id) {
         return db.query("SELECT * FROM users WHERE id=?", [id])
             .then((user) => {
-                console.log('user', user)
-
-                if (user.length === 0) {
-                    return {
-                        status: 401,
-                        error: "L'utilisateur demandé n'existe pas"
-                    };
-                }
-                else {
-                    return user;
-                }
+                return user;
             })
             .catch((err) => {
                 return err;
@@ -73,6 +53,16 @@ class UserModel {
 
     static updateProfilePhoto(id, req) {
         return db.query("UPDATE users SET photo=? WHERE id=?", [req.body.imageUrl, id])
+            .then((result) => {
+                return result;
+            })
+            .catch((err) => {
+                return err;
+            })
+    }
+
+    static addMoneyToAccount(id, req) {
+        return db.query("UPDATE users set account=account+? WHERE id=?", [req.body.moneyToAdd, id])
             .then((result) => {
                 return result;
             })

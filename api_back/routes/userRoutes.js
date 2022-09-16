@@ -1,3 +1,4 @@
+const stripe = require('stripe')("sk_test_51LhInzK8u4CL25WK350CUE4CS6QHM8JEU8FLjGWPsiNMgFMjlHfpOuwMGO0qU2OqDuwJ0k05A9WPIGZEIVJU5tzr00YQcdXD5e")
 const bcrypt = require('bcrypt');
 //const saltRounds = 10;
 const withAuthUser = require('../withAuthUser');
@@ -15,11 +16,15 @@ module.exports = (app, db) => {
         const id = req.params.id;
         let user = await UserModel.getUserById(id);
         if (user.code) {
-            res.json({status: 500, error: user})
+            console.error(user);            
+            res.json({status: 500, error: "Erreur interne"});
         }
-        else {
+        else if (user.length > 0) {
             user[0].password = undefined;
             res.json({status: 200, user: user[0] })
+        }
+        else {
+            res.json({status: 410, error: "L'utilisateur demandé n'existe pas"});
         }
     })
 
@@ -83,8 +88,8 @@ module.exports = (app, db) => {
             if (user.code) {
                 res.json({ status: 500, error: user});
             }
-            if (user.status === 401) {
-                res.json({ status: 401, error: user.error});
+            if (user.length === 0) {
+                res.json({ status: 401, error: "L'utilisateur demandé n'eiste pas"});
             }
             else {
                 bcrypt.compare(req.body.password, user[0].password)
@@ -92,7 +97,7 @@ module.exports = (app, db) => {
                         if (same) {
                             const payload = { email: req.body.email, id:user[0].id };
                             const token = jwt.sign(payload, secret);
-                            console.log(token);
+                            console.log("token", token);
                             user[0].password = "";
                             res.json({ status: 200, token: token, user: user[0] });
                         }
@@ -164,6 +169,40 @@ module.exports = (app, db) => {
         else {
             let updatedUser = await UserModel.getUserById(req.id);
             res.json({status: 200, token: req.headers['x-access-token'], user: updatedUser[0]});
+        }
+    })
+
+    app.post('/api/v1/checkAccountPayment', withAuthUser, async (req, res, next) => {
+        console.log("[checkAccountPayment]", req.body);
+
+        let moneyToAdd = req.body.moneyToAdd;
+        // create payment intent by connecting to stripe API
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: moneyToAdd * 100,
+            currency: 'eur',
+            // Verify your integration in this guide by including this parameter
+            metadata: { integration_check: 'accept_a_payment'},
+            receipt_email: req.body.email
+        });
+
+        // return response of payment intent in a protected object
+        res.json({ client_secret: paymentIntent['client_secret']})
+    })
+
+    app.put('/api/v1/addMoneyToAccount', withAuthUser, async (req, res, net) => {
+
+        let moneyToAdd = req.body.moneyToAdd;
+        let user = await UserModel.addMoneyToAccount(req.id, req);
+
+        if (user.code) {
+            console.error("ERROR user", user);
+            res.json({ status: 500, error: user});
+        }
+        else {
+            let updatedUser = await UserModel.getUserById(req.id);
+            updatedUser.password = undefined;
+            console.log("updatedUser", updatedUser[0]);
+            res.json({ status: 200, token: req.headers['x-access-token'], user: updatedUser[0]});
         }
     })
 }

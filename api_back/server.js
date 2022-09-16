@@ -6,12 +6,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 let config;
-console.log(process.env.HOST_DB);
+console.log("process.env.HOST_DB", process.env.HOST_DB);
 config = require(process.env.HOST_DB ? './config_example' : './config');
 
 // My API routes
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
+const advertRoutes = require('./routes/advertRoutes');
 // const libraryRoutes = require('./routes/libraryRoutes);
 // const documentRoutes = require('./routes/documentRoutes);
 
@@ -37,6 +38,7 @@ mysql.createConnection(dbIdents).then((db) => {
     // Call routes
     authRoutes(app, db);
     userRoutes(app, db);
+    advertRoutes(app, db);
     // libraryRoutes(app, db);
     // documentRoutes(app, db);
 

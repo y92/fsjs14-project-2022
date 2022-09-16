@@ -56,12 +56,50 @@ main
   margin-block: 5vh;
 }
 
-
-
 .link:hover
 {
   font-weight: bold;
   color: #ffdd11;
+  cursor: pointer;
+}
+
+.popup
+{
+  width: 640px;
+  max-width: 90vw;
+  border-radius: 20px;
+  border: 1px dotted #00000077;
+  overflow: hidden;
+  position: absolute;
+  margin-top: 50vh;
+  z-index: 2;
+}
+
+.popupHeader
+{
+  text-align: center;
+  background-color: #003412;
+  width: 100%;
+  position: relative;
+  border: 1px dotted #ffddcc;
+}
+
+.popupContent
+{
+  background-color: #ffddcc;
+  color: #002233;
+}
+
+.popupIcon
+{
+  position: absolute;
+  left: 7px;
+}
+
+.popupTopButtons
+{
+  position: absolute;
+  right: 7px;
 }
 
 @keyframes App-logo-spin {
@@ -82,14 +120,23 @@ main
 
 .c-form input, .c-form textarea
 {
+  height: 50px;
+}
+
+.c-form input, .c-form textarea, .c-form div.StripeElement, .c-form select
+{
   text-align: center;
   margin-block: 5px;
   width: 500px;
   max-width: 80vw;
-  height: 50px;
   border-radius: 5vh;
   color: #00aa99;
   font-size: 20px;
+}
+
+.c-form textarea
+{
+  resize: vertical;
 }
 
 .c-form input:focus, .c-form textarea:focus
@@ -106,4 +153,59 @@ main
 .c-form div.error {
   color: #cc0000;
   font-weight: bold;
+}
+
+a.button
+{
+  text-decoration: none;
+  background-color: #ff6600;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+a.button:hover
+{
+  font-weight: bold;
+  color: #ffdd11;
+}
+
+div.top-buttons {
+  margin-bottom: 15px;
+}
+
+div.bottom-buttons
+{
+  margin-top: 15px;
+}
+
+div.advert-item
+{
+  border: 1px solid #00000077;
+  border-radius: 10px;
+  display: inline-block;
+  margin-inline: 5px;
+  margin-block: 5px;
+  overflow: hidden;
+}
+
+div.advert-title
+{
+  background-color: #003412;
+  text-align: center;
+  font-weight: bold;
+  color: #ff6600;
+  width: 100%;
+  padding: 0 10px;
+}
+
+div.advert-links
+{
+  padding: 15px;
+}
+
+div.advert-links *
+{
+  margin-inline: 5px;
+  margin-block: 5px;
 }

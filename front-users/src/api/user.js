@@ -51,3 +51,23 @@ export const changePhoto = (data) => {
         return err;
     })
 }
+
+export const checkAccountPayment = (data) => {
+    return axios.post(`${config.API_URL}/api/v1/checkAccountPayment`, data, { headers: {'x-access-token': token}})
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}
+
+export const addMoneyToAccount = (data) => {
+    return axios.put(`${config.API_URL}/api/v1/addMoneyToAccount`, data, {headers: {'x-access-token': token}})
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}
