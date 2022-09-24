@@ -8,6 +8,7 @@ import Login from './containers/user/login'
 import Logout from './containers/user/logout'
 import Home from './containers/home'
 import Profile from './containers/user/profile'
+import User from './containers/user/user';
 import MyAdverts from './containers/adverts/myAdverts';
 import AddAdvert from './containers/adverts/addAdvert';
 import EditAdvert from './containers/adverts/editAdvert';
@@ -31,14 +32,15 @@ function App() {
           <Route exact path="/login" element={<Login />}/>
           <Route exact path="/logout" element={<Logout />} />
           <Route exact path="/profile" element={<RequireAuth child={Profile} auth={true} />} />
+          <Route exact path="/user/:id" element={<RequireAuth child={User} auth={false} />} />
           {/*<Route exact path="/search" element={<Search />} />
           <Route exact path="/details/:id" element={<Details />} />*/}
           <Route exact path="/myAdverts" element={<RequireAuth child={MyAdverts} auth={true} />} />
           <Route exact path="/addAdvert" element={<RequireAuth child={AddAdvert} auth={true} />} />
           <Route exact path="/editAdvert/:id" element={<RequireAuth child={EditAdvert} auth={true} />} />
-          <Route exact path="/advert/:id" element={<ViewAdvert />} />
+          <Route exact path="/advert/:id" element={<RequireAuth child={ViewAdvert} auth={false} />} />
 
-          <Route exact path="/basket" element={<Basket />} />
+          <Route exact path="/basket" element={<RequireAuth child={Basket} auth={false} />} />
           <Route exact path="/payment" element={<RequireAuth child={Payment} auth={true} />}/>
           <Route exact path="/result" element={<RequireAuth child={Result} auth={true} />}/>
         </Routes>

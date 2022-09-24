@@ -3,6 +3,7 @@ import {Navigate} from 'react-router-dom';
 import {login} from '../../api/user';
 import {createDispatchHook, useDispatch, useSelector} from 'react-redux';
 import {connect} from '../../slices/userSlice';
+import { config } from '../../config';
 
 const Login = (props) => {
     const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const Login = (props) => {
         login(data)
         .then((res) => {
             if (res.status === 200) {
-                window.localStorage.setItem("library-user-token", res.token);
+                window.localStorage.setItem(config.LS_USER_TOKEN_KEY, res.token);
 
                 let myUser = res.user;
                 myUser.token = res.token;

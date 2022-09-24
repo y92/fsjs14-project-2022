@@ -40,13 +40,11 @@ const AddAdvert = (props)=>{
 
         addAdvert(advert)
             .then((res) => {
-                let data = res.data;
-
-                if (data.status === 200) {
+                if (res.status === 200) {
                     setRedirect(true);
                 }
                 else {
-                    setError(data.error);
+                    setError(res.error);
                 }
             })
             .catch((err) => {
@@ -58,10 +56,9 @@ const AddAdvert = (props)=>{
     useEffect(() => {
         getAdvertCategs()
             .then((res) => {
-                let data = res.data;
-                console.log(data);
-                if (data.status === 200) {
-                    setAdvertCategs(data);
+                console.log(res);
+                if (res.status === 200) {
+                    setAdvertCategs(res.categs);
                 }
             })
             .catch((err) => {
@@ -70,9 +67,8 @@ const AddAdvert = (props)=>{
 
         getAdvertStates()
             .then((res) => {
-                let data = res.data;
-                if (data.status === 200) {
-                    setAdvertStates(data);
+                if (res.status === 200) {
+                    setAdvertStates(res.states);
                 }
             })
             .catch((err) => {
@@ -92,7 +88,7 @@ const AddAdvert = (props)=>{
                 <span>Catégorie</span>
                 <select onChange={(e) => { setCateg(e.currentTarget.value)}}>
                     <option key={0} value="">&lt;Sans catégorie&gt;</option>
-                    {advertCategs.categs && advertCategs.categs.map((elt) => {
+                    {advertCategs && advertCategs.map((elt) => {
                         return <option key={elt.id} value={elt.id}>{elt.formattedTitle}</option>
                     })}
                 </select>
@@ -103,7 +99,7 @@ const AddAdvert = (props)=>{
                     //console.log("state", e.currentTarget.value);
                     setState(e.currentTarget.value);
                 }}>
-                    {advertStates.states && advertStates.states.map((elt) => {
+                    {advertStates && advertStates.map((elt) => {
                         return <option key={elt.id} value={elt.id}>{elt.state}</option>
                     })}
                 </select>

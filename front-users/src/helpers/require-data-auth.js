@@ -21,7 +21,7 @@ const RequireAuth = (props) => {
     // on loading of each component
     useEffect(() =>{
 
-        console.log(user);
+        //console.log(user);
 
         // if user is not logged
         if (user.isLogged === false) {
@@ -55,8 +55,8 @@ const RequireAuth = (props) => {
                 })
                 .catch((err) => {
                     console.error(err);
-                    window.localStorage.remove(config.LS_USER_TOKEN_KEY);
-                    setRedirect(true);
+                    window.localStorage.removeItem(config.LS_USER_TOKEN_KEY);
+                    //setRedirect(true);
                 })
             }
         }

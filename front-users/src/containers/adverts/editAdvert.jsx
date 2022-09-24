@@ -2,13 +2,18 @@ import React, { useState, useEffect } from 'react';
 import {Link, Navigate, useParams} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux'
 import {selectUser} from '../../slices/userSlice';
-import { editAdvert, getAdvertById, getAdvertCategs, getAdvertStates } from '../../api/advert';
+import { editAdvert, editAdvertMainPict, getAdvertById, getAdvertCategs, getAdvertStates } from '../../api/advert';
 import * as icons from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {Image, Video, Transformation, CloudinaryContext} from "cloudinary-react";
+import { config } from '../../config';
+import imgNone from '../../assets/imgNone.jpg';
 
-const EditAdvert = (props)=>{
+const EditAdvert = (props) =>{
 
     const user = useSelector(selectUser);
+    const cloudName = config.CLOUD_NAME;
+
     const [redirect, setRedirect] = useState(false);
 
     const params = useParams();
@@ -20,6 +25,7 @@ const EditAdvert = (props)=>{
     const [advert, setAdvert] = useState(null);
     const [advertError, setAdvertError] = useState(null);
 
+    const [mainPict, setMainPict] = useState(null);
     const [categ, setCateg] = useState(null);
     const [title, setTitle] = useState(null);
     const [description, setDescription] = useState(null);
@@ -89,6 +95,7 @@ const EditAdvert = (props)=>{
                     let advert = res.advert;
                     setAdvert(advert);
                     if (advert) {
+                        setMainPict(advert.mainPict);
                         setCateg(advert.categ);
                         setTitle(advert.title);
                         setDescription(advert.description);
@@ -110,6 +117,79 @@ const EditAdvert = (props)=>{
             })
     }, [])
 
+    /*const deleteMainPict = (e) => {
+        e.preventDefault();
+    }*/
+
+    // Callback triggered when a file is sent
+    const checkUploadResult = (result) => {
+        setAdvertError(null);
+
+        // if file is sent successfully
+        if (result.event === "success") {
+            console.log("[Result] ", result);
+            console.log("[Result info] ", result.info);
+
+            let data = {
+                mainPict: result.info.public_id,
+            }
+
+            editAdvertMainPict(data, advert.id)
+                .then((res) => {
+                    console.log(res);
+                    if (res.status === 200) {
+                        let oldMainPict = mainPict;
+                        setMainPict(res.advert.mainPict);
+                        /*window.cloudinary.v2.uploader.destroy(oldMainPict, (err, res) => {
+                            console.error(err);
+                            console.log(res);
+                        })
+                        .then((res) => {
+                            console.log(res);
+                        })
+                        .catch((err) => {
+                            console.error("Erreur lors de la suppression de la précédente image");
+                        })*/
+                    }
+                    else {
+                        setAdvertError(res.error);
+                        console.error(result);
+                    }
+                })
+                .catch((err) => {
+                    setAdvertError("Une erreur est survenue lors de la modification de l'image");
+                    console.error(err);
+                })
+
+        }
+        else {
+            setAdvertError("Erreur lors de l'envoi du fichier");
+        }
+    }
+
+    // function to display images and videos loading cloudinary interface
+    const showWidget = () => {
+        
+        // interface settings
+        //console.log("window.cloudinary", cloudinary);
+        let widget = window.cloudinary.createUploadWidget({
+            cloudName: cloudName,
+            uploadPreset: "fsjs14-adverts-main", //directory where files must be sent
+            maxImageWidth: 1024, // image max size
+            maxImageHeight: 1024, // image max size
+            cropping: false
+        },
+        (err, res) => {
+            if (err) {
+                console.error(err);
+            }
+            checkUploadResult(res); // call callback
+        })
+
+        // opening interface
+        widget.open();
+    }
+
     if (redirect) {
         return <Navigate to="/myAdverts" />
     }
@@ -119,6 +199,19 @@ const EditAdvert = (props)=>{
             <h2>Éditer une annonce</h2>
             {advert && (advert.addedBy === user.data.id) && <p>Vous pouvez éditer vos annonces</p> }
             {advert ? (advert.addedBy === user.data.id ? <form className="c-form" onSubmit={submitForm}>
+                { mainPict != null ? <CloudinaryContext cloudName={cloudName}>
+                        <div>
+                            <Image publicId={mainPict} id="profileImg">
+                                <Transformation quality="auto" fetchFormat="auto" />
+                            </Image>
+                        </div>
+                    </CloudinaryContext> : <div><img src={imgNone}/></div>}
+                        {/*photo && <img src="{photo}" alt="photo" />*/}
+
+                    <button onClick={(e) => {
+                        e.preventDefault();
+                        showWidget();
+                    }}>Changer l'image principale</button>
                 <span>Catégorie</span>
                 <select onChange={(e) => { setCateg(e.currentTarget.value)}}>
                     <option key={0} value="">&lt;Sans catégorie&gt;</option>

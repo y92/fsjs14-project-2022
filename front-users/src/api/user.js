@@ -2,7 +2,7 @@ import axios from "axios";
 import { config } from "../config";
 const token = window.localStorage.getItem(config.LS_USER_TOKEN_KEY);
 
-export const findUserById = (userId) => {
+export const getUserById = (userId) => {
     return axios.get(`${config.API_URL}/api/v1/user/${userId}`)
     .then((res) => {
         return res.data;

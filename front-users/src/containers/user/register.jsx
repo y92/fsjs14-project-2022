@@ -4,6 +4,7 @@ import {Navigate} from 'react-router-dom';
 
 const Register = (props) => {
 
+    const [login, setLogin] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [birthDate, setBirthDate] = useState("");
@@ -20,6 +21,7 @@ const Register = (props) => {
 
     const onSubmitForm = () => {
         let user = {
+            login: login,
             lastName: lastName,
             firstName: firstName,
             birthDate: birthDate,
@@ -60,6 +62,11 @@ const Register = (props) => {
                     e.preventDefault();
                     onSubmitForm();
                   }}>
+                <input type="text"
+                        placeholder="Votre login"
+                        onChange={(e) => {
+                            setLogin(e.currentTarget.value)
+                }} />
                 <input type="text"
                         placeholder="Votre nom"
                         onChange={(e) => {

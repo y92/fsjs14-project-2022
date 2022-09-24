@@ -32,6 +32,16 @@
   color: #ffffff;
 }
 
+span.basket-size 
+{
+  background-color: #55aaee;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: calc(8px + 1vmin);
+}
+
 main 
 {
   min-height: 85vh;
@@ -63,16 +73,31 @@ main
   cursor: pointer;
 }
 
+.popup-background
+{
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000077;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
 .popup
 {
-  width: 640px;
   max-width: 90vw;
   border-radius: 20px;
   border: 1px dotted #00000077;
   overflow: hidden;
-  position: absolute;
-  margin-top: 50vh;
-  z-index: 2;
+}
+
+.answerQuestionPopup .popupContent *
+{
+  max-width: 100%;
 }
 
 .popupHeader
@@ -82,6 +107,8 @@ main
   width: 100%;
   position: relative;
   border: 1px dotted #ffddcc;
+  color: #ffffff;
+  font-weight: bold;
 }
 
 .popupContent
@@ -166,6 +193,7 @@ a.button
 
 a.button:hover
 {
+  cursor: pointer;
   font-weight: bold;
   color: #ffdd11;
 }
@@ -204,8 +232,196 @@ div.advert-links
   padding: 15px;
 }
 
-div.advert-links *
+div.advert-links > *, div.basket-buttons > *
 {
   margin-inline: 5px;
   margin-block: 5px;
+}
+
+div.advert-page h2
+{
+  color: #ff6600;
+  font-size: 48px;
+  margin-bottom: 0px;
+}
+
+div.advert-descr
+{
+  font-size: 20px;
+}
+
+div.advert-state
+{
+  padding-bottom: 10px;
+  border-bottom: 1px dotted #00000077;
+}
+
+div.advert-state *
+{
+  margin-inline: 5px;
+  margin-block: 5px;
+}
+
+span.advert-state-title
+{
+  font-weight: bold;
+}
+
+div.advert-author-and-date
+{
+  padding: 5px 0;
+  border-bottom: 1px dotted #00000077;
+  margin-bottom: 10px;
+}
+
+div.advert-nb-of-items, div.advert-no-more-items
+{
+  margin-bottom: 10px;
+}
+
+
+div.advert-picture img
+{
+  max-height: 300px;
+}
+
+div.advert-picture-big img
+{
+  max-height: 100vw;
+}
+
+div.advert-author-and-date span[class^=advert]
+{
+  margin-inline: 10px;
+  margin-block: 5px;
+}
+
+div.advert-price
+{
+  font-size: 48px;
+  font-weight: bold;
+  color: #012377;
+}
+
+div.advert-questions
+{
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+div.advert-question-item, div.answer-to-question-item
+{
+  display: flex;
+  flex-direction: row;
+  width: 800px;
+  max-width: 95vw;
+  border: 1px dotted #00000077;
+  border-radius: 10px;
+  margin-block: 5px;
+}
+
+div.answer-to-question-item
+{
+  flex-direction: row-reverse;
+  background-color: #ccffcc;
+}
+
+div.advert-question-asked-by-avatar, div.answered-by-avatar
+{
+  width: 125px;
+  padding: 5px;
+  border-right: 1px dotted #00000077;
+}
+
+div.advert-question-asked-by-avatar
+{
+  border-right: 1px dotted #00000077;
+}
+
+div.answered-by-avatar
+{
+  border-left: 1px dotted #00000077;
+}
+
+div.advert-question-asked-by-avatar img, div.answered-by-avatar img
+{
+  width: 100%;
+  max-width: 20vw;
+}
+
+div.advert-question-date-and-author, div.answer-to-question-date-and-author
+{
+  border-bottom: 1px dotted #00000077;
+}
+
+div.advert-question-data, div.answer-to-question-data
+{
+  flex: 1;
+}
+
+div.advert-question-date-and-author > *, div.answer-to-question-date-and-author > *
+{
+  margin-inline: 10px;
+  margin-block: 5px;
+}
+
+div.advert-question-content
+{
+  min-height: 125px;
+}
+
+div.advert-question-buttons
+{
+  text-align: right;
+  padding-top: 15px;
+  padding-right: 5px;
+  margin: 15px 0;
+  border-top: 1px dotted #00000077;
+}
+
+div.advert-question-buttons > *
+{
+  margin-inline: 5px;
+  margin-block: 5px;
+}
+
+div.basket-page
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+div.basket-item
+{
+  display: flex;
+  flex-direction: row;
+  border: 1px dotted #000000ff;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-block: 5px;
+}
+
+div.basket-item-pict img
+{
+  width: 150px;
+  max-width: 25vw;
+}
+
+div.basket-item-details
+{
+  flex: 1;
+  border-left: 1px solid #00000077;
+  text-align: left;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+div.basket-footer
+{
+  margin-bottom: 20px;
 }

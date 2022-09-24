@@ -2,13 +2,16 @@ import React, {useState, useEffect} from 'react';
 import {Navigate} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
 import {selectUser, afterUpdateProfile} from '../../slices/userSlice'
-import {findUserById, updateProfile, changePhoto} from '../../api/user';
+import {getUserById, updateProfile, changePhoto} from '../../api/user';
 import {Image, Video, Transformation, CloudinaryContext} from "cloudinary-react";
+import { config } from '../../config';
 
 const Profile = (props) => {
 
     const user = useSelector(selectUser);
-    const cloudName = "dppxvyyuu";
+    const cloudName = config.CLOUD_NAME;
+
+    const [login, setLogin] = useState("");
     const [lastName, setLastName] = useState("");
     const [firstName, setFirstName] = useState("");
     const [photo, setPhoto] = useState("");
@@ -26,6 +29,7 @@ const Profile = (props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        setLogin(user.data.login);
         setLastName(user.data.lastName);
         setFirstName(user.data.firstName);
         setPhoto(user.data.photo);
@@ -42,6 +46,7 @@ const Profile = (props) => {
 
     const onSubmitForm = () => {
         let user = {
+            login: login,
             lastName: lastName,
             firstName: firstName,
             email: email,
@@ -145,7 +150,7 @@ const Profile = (props) => {
 
     return (
         <>
-            <h1>Profil de {user.data.firstName} {user.data.lastName}</h1>
+            <h1>Profil de {user.data.login}</h1>
             
             <form className="c-form"
                   onSubmit={(e) => {
@@ -165,6 +170,12 @@ const Profile = (props) => {
                     e.preventDefault();
                     showWidget();
                 }}>Changer ma photo de profil</button>
+                <input type="text"
+                        placeholder="Votre login"
+                        onChange={(e) => {
+                            setLogin(e.currentTarget.value)
+                        }}
+                        value={login} />                
                 <input type="text"
                         placeholder="Votre nom"
                         onChange={(e) => {

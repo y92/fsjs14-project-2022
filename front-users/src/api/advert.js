@@ -12,6 +12,26 @@ export const getMyAdverts = () => {
     })
 }
 
+export const getAdvertsByUser = (userId) => {
+    return axios.post(`${config.API_URL}/api/v1/getAdvertsByUser/${userId}`)
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}
+
+export const getLastAdverts = () => {
+    return axios.post(`${config.API_URL}/api/v1/getLastAdverts`)
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}
+
 export const getAdvertCategs = () => {
     return axios.get(`${config.API_URL}/api/v1/getAdvertCategs`, undefined, {headers: {'x-access-token': token}})
     .then((res) => {
@@ -54,6 +74,56 @@ export const addAdvert = (advert) => {
 
 export const editAdvert = (advert, advertId) => {
     return axios.put(`${config.API_URL}/api/v1/editAdvert/${advertId}`, advert, {headers: {'x-access-token': token }})
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}
+
+export const editAdvertMainPict = (pict, advertId) => {
+    return axios.put(`${config.API_URL}/api/v1/editAdvertMainPict/${advertId}`, pict, {headers: {'x-access-token': token }})
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}
+
+export const getAdvertQuestions = (advertId) => {
+    return axios.get(`${config.API_URL}/api/v1/getAdvertQuestions/${advertId}`, undefined, {headers: {'x-access-token': token}})
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}
+
+export const askQuestion = (advertId, data) => {
+    return axios.post(`${config.API_URL}/api/v1/askQuestionAdvert/${advertId}`, data, {headers: {'x-access-token': token}})
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}
+
+export const answerQuestion = (questionId, data) => {
+    return axios.post(`${config.API_URL}/api/v1/answerQuestion/${questionId}`, data, {headers: {'x-access-token': token}})
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}
+
+export const deleteQuestion = (questionId) => {
+    return axios.delete(`${config.API_URL}/api/v1/deleteQuestion/${questionId}`, undefined, {headers: {'x-access-token': token}})
     .then((res) => {
         return res.data;
     })

@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckOutPopupForm from '../components/checkout-popup-form';
+import { config } from '../config';
 
 // Header menu
 
@@ -22,7 +23,7 @@ const Header = (props) => {
 
     const [displayMoneyPopup, setDisplayMoneyPopup] = useState(false);
 
-    const stripePromise = loadStripe(`pk_test_51LhInzK8u4CL25WK7WbvieMyruUutxFjGlCd6ogq41Oa2LElD1xcZ23tLx87wjYLgi25sklbnlbph0PXGtVir5qr00Aq21VL6T`);
+    const stripePromise = loadStripe(config.STRIPE_PK_TEST);
 
     /* const stripeOptions = {
         //clientSecret: `pi_1EUn7T2VYugoKSBzdYURrZ3e_secret_EuHTakCF734ZAZh92dbJuU7Ru`
@@ -41,6 +42,7 @@ const Header = (props) => {
     return (
         <div className="header">
             {paymentPopup.display && 
+                <div className="popup-background">
                     <div className="popup moneyPopup">
                         <div className="popupHeader">
                             <span className="popupIcon"><FontAwesomeIcon icon={icons.faMoneyBillWave}/></span>
@@ -78,6 +80,7 @@ const Header = (props) => {
                                 </form> */}
                         </div>
                     </div>
+                </div>
             }
             <nav>
                 <>
@@ -87,12 +90,12 @@ const Header = (props) => {
                 {user.isLogged ? <>
                     <Link className="link" to="/myAdverts"><FontAwesomeIcon icon={icons.faRectangleAd } title ="Mes annonces" /></Link>
                     <Link className="link" to="/profile"><FontAwesomeIcon icon={icons.faUser } title="Mon profil"/></Link>
-                    <Link className="link" to="/basket"><FontAwesomeIcon icon={icons.faBasketShopping} title="Mon panier" /></Link>
+                    <Link className="link" to="/basket"><FontAwesomeIcon icon={icons.faBasketShopping} title="Mon panier" /> {(basket.basket.length > 0) && <span className="basket-size">{basket.basket.length}</span>}</Link>
                     <a className="link" onClick={addMoneyPopup}><FontAwesomeIcon icon={icons.faMoneyBill1Wave} title="Ajouter de l'argent"/> [{user.data.account.toFixed(2)} €]</a>
-                    <Link className="link" to="/logout"><FontAwesomeIcon icon={icons.faPowerOff} title="Déconnexion" /></Link>
+                    <Link className="link" to="/logout"><FontAwesomeIcon icon={icons.faPowerOff} title="Déconnexion" /> <span>[{user.data.login}]</span></Link>
                 </> : <>
                     <Link className="link" to="/register"><FontAwesomeIcon icon={icons.faArrowRightToBracket} title="Inscription" /></Link>
-                    <Link className="link" to="/login"><FontAwesomeIcon icon={icons.faPowerOff} title="Connexion" /></Link>
+                    <Link className="link" to="/login"><FontAwesomeIcon icon={icons.faPowerOff} title="Connexion" /> <span>[Invité]</span></Link>
                 </>}
             </nav>
         </div>
