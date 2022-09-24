@@ -110,7 +110,7 @@ const Basket = (props) => {
                     {paymentForm && (
                         <div className="payment-form">
                             <Elements stripe={stripePromise}>
-                                <CheckOutBasketForm />
+                                <CheckOutBasketForm emptyBasket={emptyBasket} />
                             </Elements>
                         </div>
                     )}                    

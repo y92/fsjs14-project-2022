@@ -109,6 +109,7 @@ const checkOrderBeforePayment = async (req, res, next) => {
 module.exports = (app, db) => {
     const OrderModel = require('../models/orderModel')(db);
     const AdvertModel = require('../models/advertModel')(db);
+    const UserModel = require('../models/userModel')(db);
 
     app.post('/api/v1/checkOrderPayment', withAuthUser, checkOrderBeforePayment, async (req, res, next) => {
         console.log("[checkOrderPayment]", req.body);
@@ -116,7 +117,7 @@ module.exports = (app, db) => {
         let totalPrice = req.body.totalPrice;
         // create payment intent by connecting to stripe API
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: totalPrice * 100,
+            amount: Math.round(totalPrice * 100),
             currency: 'eur',
             // Verify your integration in this guide by including this parameter
             metadata: { integration_check: 'accept_a_payment'},
@@ -137,6 +138,36 @@ module.exports = (app, db) => {
         }
         else {
             res.json({status: 200})
+        }
+    })
+
+    app.post('/api/v1/payOrderWithAccount', withAuthUser, checkOrderBeforePayment, async (req, res, next) => {
+
+        let checkUser = await UserModel.getUserById(req.id);
+        console.log("req.items",req.body.items);
+
+        if (checkUser.code) {
+            console.error(checkUser);
+            res.json({ status: 500, error: "Erreur interne"});
+        }
+        else {
+            if (checkUser[0].account < req.body.totalPrice) {
+                res.json({status: 403, error: "Votre crédit est insuffisant"});
+            }
+            else {
+                let payOrderWithAccount = await OrderModel.payOrder(req, true);
+
+                if (payOrderWithAccount.code) {
+                    console.error(payOrderWithAccount);
+                    res.json({ status: 500, error: "Erreur interne"});
+                }
+                else {
+                    let userAfterPayment = await UserModel.getUserById(req.id);
+                    userAfterPayment[0].password = undefined;
+                    userAfterPayment[0].token = req.headers['x-access-token'];
+                    res.json({ status: 200, user: userAfterPayment[0] });
+                }
+            }
         }
     })
 }

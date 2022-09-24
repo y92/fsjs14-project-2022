@@ -31,3 +31,13 @@ export const payOrder = (data) => {
         return err;
     })
 }
+
+export const payOrderWithAccount = (data) => {
+    return axios.post(`${config.API_URL}/api/v1/payOrderWithAccount`, data, { headers: { 'x-access-token': token }})
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}
