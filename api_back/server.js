@@ -13,6 +13,7 @@ config = require(process.env.HOST_DB ? './config_example' : './config');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const advertRoutes = require('./routes/advertRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 // const libraryRoutes = require('./routes/libraryRoutes);
 // const documentRoutes = require('./routes/documentRoutes);
 
@@ -39,6 +40,7 @@ mysql.createConnection(dbIdents).then((db) => {
     authRoutes(app, db);
     userRoutes(app, db);
     advertRoutes(app, db);
+    orderRoutes(app, db);
     // libraryRoutes(app, db);
     // documentRoutes(app, db);
 

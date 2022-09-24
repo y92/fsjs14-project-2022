@@ -31,8 +31,13 @@ module.exports = (app, db) => {
     // register route
     app.post('/api/v1/register', async (req, res, next) => {
         let checkEmail = await UserModel.getUserByEmail(req.body.email);
+        let checkLogin = await UserModel.getUserByLogin(req.body.login);
 
-        if (!req.body.lastName || req.body.lastName.trim().length < 1) {
+
+        if (!req.body.login || req.body.login.trim().length < 1) {
+            res.json({ status: 403, error: "Veuillez saisir un login"});
+        }
+        else if (!req.body.lastName || req.body.lastName.trim().length < 1) {
             res.json({ status: 403, error: "Veuillez saisir un nom" });
         }
         else if (!req.body.firstName || req.body.firstName.trim().length < 1) {
@@ -59,17 +64,26 @@ module.exports = (app, db) => {
         else if (!req.body.city || req.body.city.trim().length < 1) {
             res.json({ status: 403, error: "Veuillez saisir une ville" });
         }
-        else if (checkEmail.status === 401) {
+        else if (checkEmail.code || checkLogin.code) {
+            console.error(checkEmail);
+            console.error(checkLogin);
+            res.json({ status: 500, error: "Erreur interne"});
+        }
+        else if (checkEmail.length === 0 && checkLogin.length === 0) {
             let user = await UserModel.register(req);
             if (user.code) {
-                res.json({status: 500, error: user})
+                console.error(user);
+                res.json({status: 500, error: "Erreur interne"})
             }
             else {
                 res.json({status: 200, result: user})
             }
         }
-        else {
+        else if (checkEmail.length > 0) {
             res.json({ status: 403, error: "E-mail déjà utilisée"});
+        }
+        else if (checkLogin.length > 0) {
+            res.json({ status: 403, error: "Login déjà utilisé"});            
         }
     })
 
@@ -116,6 +130,9 @@ module.exports = (app, db) => {
 
         //let checkEmail = await UserModel.getUserByEmail(req.body.email);
 
+        if (!req.body.login || req.body.login.trim().length < 1) {
+            res.json({ status: 403, error: "Veuillez saisir un login"});
+        }
         if (!req.body.lastName || req.body.lastName.trim().length < 1) {
             res.json({ status: 403, error: "Veuillez saisir un nom" });
         }
@@ -143,16 +160,27 @@ module.exports = (app, db) => {
         else if (!req.body.city || req.body.city.trim().length < 1) {
             res.json({ status: 403, error: "Veuillez saisir une ville" });
         }
-        else  {
-            let user = await UserModel.updateProfile(req.id, req);
-            if (user.code) {
-                res.json({status: 500, error: user})
+        else {
+            let checkLogin = await UserModel.getUserByLogin(req.body.login);
+
+            if (checkLogin.code) {
+                console.error(checkLogin);
+                res.json({ status: 500, error: "Erreur interne"});
             }
-            else {
-                //console.log("after update",user);
-                let updatedUser = await UserModel.getUserById(req.id);
-                //console.log("updatedUser", updatedUser)
-                res.json({status: 200, token: req.headers['x-access-token'], user: updatedUser[0]})
+            else if (checkLogin.length > 0) {
+                res.json({status: 403, error: "Le login spécifié eiste déjà"});
+            }
+            else  {
+                let user = await UserModel.updateProfile(req.id, req);
+                if (user.code) {
+                    res.json({status: 500, error: user})
+                }
+                else {
+                    //console.log("after update",user);
+                    let updatedUser = await UserModel.getUserById(req.id);
+                    //console.log("updatedUser", updatedUser)
+                    res.json({status: 200, token: req.headers['x-access-token'], user: updatedUser[0]})
+                }
             }
         }
     })

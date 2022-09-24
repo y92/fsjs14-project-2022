@@ -68,6 +68,34 @@ module.exports = (app, db) => {
         }
     })
 
+    // get adverts of other user
+    app.post('/api/v1/getAdvertsByUser/:id', async(req, res, next) => {
+
+        const id = req.params.id;
+        if (isNaN(id)) {
+            res.json({ status: 200, adverts: []});
+        }
+        let adverts = await AdvertModel.getAdvertsByUser(id);
+        if (adverts.code) {
+            console.error(adverts);
+            res.json({ status: 500, error: "Erreur interne"});
+        }
+        else {
+            res.json({ status: 200, adverts: adverts});
+        }
+    })
+
+    // get last adverts
+    app.post('/api/v1/getLastAdverts', async(req, res, next) => {
+        let adverts = await AdvertModel.getLastAdverts(10);
+        if (adverts.code) {
+            res.json({status:500, error: "Erreur interne"});
+        }
+        else {
+            res.json({status: 200, adverts: adverts});
+        }
+    })
+
     // add advert route
     app.post('/api/v1/addAdvert', withAuthUser, async (req, res, next) => {
 
@@ -165,5 +193,149 @@ module.exports = (app, db) => {
         }
     })
 
+    // update advert main picture
+    app.put('/api/v1/editAdvertMainPict/:id', withAuthUser, async (req, res, next) => {
+        let id = req.params.id;
+        if (isNaN(id)) {
+            res.json({ status: 401, error: "L'annonce demandée n'existe pas."});
+        }
+        let advert = await AdvertModel.getAdvertById(id);
 
+        if (advert.code) {
+            console.error(advert);
+            res.json({ status: 500, error: "Erreur interne"});
+        }
+        else if (advert.length === 0) {
+            res.json({ status: 401, error: "L'annonce demandée n'existe pas."});
+        }
+        else if (advert[0].addedBy != req.id) {
+            res.json({ status: 403, error: "Vous ne pouvez pas modifier une annonce dont vous n'êtes pas l'auteur"})
+        }
+
+        advert = await AdvertModel.editAdvertMainPict(advert[0].id, req);
+
+        if (advert.code) {
+            console.error(advert);
+            res.json({ status: 500, error: "Erreur interne"});
+        }
+        else {
+            advert = await AdvertModel.getAdvertById(id);
+            res.json({ status: 200, advert: advert[0]});
+        }
+
+    })
+
+    // get advert questions
+    app.get('/api/v1/getAdvertQuestions/:advertId', async (req, res, next) => {
+        let advertId = req.params.advertId;
+
+        if (isNaN(advertId)) {
+            res.json({ status: 401, error: "L'annonce sélectionnée n'existe pas."});
+        }
+
+        let questions = await AdvertModel.getAdvertQuestions(advertId);
+
+        if (questions.code) {
+            console.error(questions);
+            res.json({status: 500, error: "Erreur interne"});
+        }
+        else {
+            res.json({status: 200, questions: questions});
+        }
+    })
+
+    // ask question on advert
+    app.post('/api/v1/askQuestionAdvert/:id', withAuthUser, async (req, res, next) => {
+        let id = req.params.id;
+
+        if (isNaN(id)) {
+            res.json({ status: 401, error: "L'annonce sélectionnée n'existe pas"});
+        }
+        let advert = await AdvertModel.getAdvertById(id);
+        if (advert.code) {
+            console.error(advert);
+            res.json({ status: 500, error: "Erreur interne (1)"});
+        }
+        else if (advert.length === 0) {
+            res.json({ status: 401, error: "L'annonce sélectionnée n'existe pas"});
+        }
+        else if (advert[0].addedBy == req.id) {
+            res.json({ status: 403, error: "Vous ne pouvez pas poser de questions sur vos propres annonces"});
+        }
+
+        let askQuestion = await AdvertModel.askQuestion(advert[0].id, req);
+
+        if (askQuestion.code) {
+            console.error(askQuestion);
+            res.json({ status: 500, error: "Erreur interne (2)"});
+        }
+        else {
+            let questions = await getAdvertQuestions(advert[0].id);
+            if (questions.code) {
+                res.json({ status: 500, error: "Erreur interne (3)"})
+            }
+            else {
+                res.json({ status: 200, questions: questions});
+            }
+        }
+    })
+
+    // answer to a question
+    app.post('/api/v1/answerQuestion/:questionId', withAuthUser, async (req, res, next) => {
+        let questionId = req.params.questionId;
+
+        if (isNaN(questionId)) {
+            res.json({ status: 401, error: "La question sélectionnée n'existe pas"});
+        }
+
+        let question = await AdvertModel.getAdvertQuestionById(questionId);
+        console.log(question, "req.id="+req.id)
+        if (question.code) {
+            console.error(question);
+            res.json({ status: 500, error: "Erreur interne (1)"});
+        }
+        else if (question.length === 0) {
+            res.json({ status: 401, error: "La question sélectionnée n'existe pas"});
+        }
+        else if (question[0].advertAddedBy !== req.id) {
+            res.json({ status: 403, error: "Vous ne pouvez répondre qu'aux questions concernant vos propres annonces" });
+        }
+        else {
+            let answer = await AdvertModel.answerQuestion(question[0].id, req);
+            if (answer.code) {
+                res.json({ status: 500, error: "Erreur interne (2)"});
+            }
+            else {
+                res.json({ status: 200 })
+            }
+        }
+    })
+
+    app.delete('/api/v1/deleteQuestion/:id', withAuthUser, async (req, res, next) => {
+        let id = req.params.id;
+
+        if (isNaN(id)) {
+            res.json({ status: 401, error: "La question sélectionnée n'existe pas."});
+        }
+
+        let question = AdvertModel.getQuestionById(id);
+
+        if (question.code) {
+            console.error(question);
+            res.json({ status: 500, error: "Erreur interne (1)"});
+        }
+        else if (question.length < 1) {
+            res.json({ status: 401, error: "La question sélectionnée n'existe pas"});
+        }
+        else {
+            let deleteQuestion = await deleteQuestion(id);
+
+            if (deleteQuestion.code) {
+                res.json({ status: 500, error: "Erreur interne (2)"});
+            } 
+            else {
+                res.json({ status: 200 })
+            }
+        }
+    })
 }
