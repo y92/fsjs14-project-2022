@@ -72,7 +72,7 @@ const User = (props)=>{
                     </div>
                     <div className="user-details">
                         <div>Inscrit(e) le {makeDate(otherUser.registeredOn)}</div>
-                        <div><b>Note moyenne :</b> {otherUser.avgClientsNotes.toFixed(1) || "?"}/5 ({otherUser.nbClientsNotes} { Math.abs(otherUser.nbClientsNotes) <= 1 ? "vente" : "ventes"})</div>
+                        <div><b>Note moyenne :</b> {otherUser.avgClientsNotes ? otherUser.avgClientsNotes.toFixed(1) : "?"}/5 ({otherUser.nbClientsNotes} { Math.abs(otherUser.nbClientsNotes) <= 1 ? "vente" : "ventes"})</div>
                     </div>
                 </div>
                 <h3>Annonces</h3>
