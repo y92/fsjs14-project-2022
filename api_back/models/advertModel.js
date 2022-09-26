@@ -17,6 +17,8 @@ class AdvertModel {
 
     static getAdvertById(id) {
         return db.query(`SELECT ad.*, (SELECT title FROM advert_categs WHERE id=ad.categ) as categTitle, (SELECT state FROM advert_states WHERE id=ad.state) as advertState, 
+                        (SELECT round(avg(clientNote),1) FROM order_details WHERE advert IN (SELECT id FROM adverts WHERE addedBy=ad.addedBy)) AS sellerAvgClientsNotes, 
+                        (SELECT count(clientNote) FROM order_details WHERE advert IN (SELECT id FROM adverts WHERE addedBy=ad.addedBy)) AS sellerNbClientsNotes,
                         (SELECT login FROM users WHERE id=ad.addedBy) as addedByUser
                         FROM adverts ad WHERE ad.id=?`, [id])
             .then((res) => {
@@ -62,7 +64,7 @@ class AdvertModel {
     }
 
     static getLastAdverts(limit) {
-        return db.query("SELECT * FROM adverts ORDER BY addedOn DESC LIMIT ?", [limit])
+        return db.query("SELECT * FROM adverts WHERE quantity > 0 ORDER BY addedOn DESC LIMIT ?", [limit])
         .then((res) => {
             return res;
         })
