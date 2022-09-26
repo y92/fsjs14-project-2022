@@ -29,12 +29,12 @@ const Footer = (props) => {
     return (
         <div className="footer">
             <div>© me ({ date })</div>
-            <nav>
+            {/*<nav>
                 <div>
                     <Link className="link" to="/rules"><FontAwesomeIcon icon={icons.faList} /> Règlement</Link>
                     <Link className="link" to="/faq"><FontAwesomeIcon icon={icons.faQuestionCircle } /> FAQ</Link>
                 </div>
-            </nav>
+            </nav>*/}
         </div>
     )
 }
