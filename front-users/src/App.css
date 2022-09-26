@@ -32,7 +32,7 @@
   color: #ffffff;
 }
 
-span.basket-size 
+span.basket-size, span.my-clients-orders-size
 {
   background-color: #55aaee;
   color: #ffffff;
@@ -95,9 +95,15 @@ main
   overflow: hidden;
 }
 
-.answerQuestionPopup .popupContent *
+.answerQuestionPopup .popupContent *, .orderActionPopup .popupContent *
 {
   max-width: 100%;
+}
+
+.orderActionPopup .popupContent
+{
+  margin-top: -20px;
+  padding: 5px;
 }
 
 .popupHeader
@@ -198,6 +204,26 @@ a.button:hover
   color: #ffdd11;
 }
 
+a.confirm-button
+{
+  background-color: #009900;
+}
+
+a.confirm-button:hover
+{
+  color: #00ff00;
+}
+
+a.cancel-button
+{
+  background-color: #990000;
+}
+
+a.cancel-button:hover
+{
+  color: #ffaaaa;
+}
+
 div.top-buttons {
   margin-bottom: 15px;
 }
@@ -232,10 +258,11 @@ div.advert-links
   padding: 15px;
 }
 
-div.advert-links > *, div.basket-buttons > *
+div.advert-links > *, div.basket-buttons > *, div.orders-buttons > *, div.my-clients-orders-buttons > *, div.order-item-buttons > *, div.popupButtons > *
 {
   margin-inline: 5px;
   margin-block: 5px;
+  display: inline-block;
 }
 
 div.advert-page h2
@@ -353,9 +380,14 @@ div.advert-question-asked-by-avatar img, div.answered-by-avatar img
   max-width: 20vw;
 }
 
-div.advert-question-date-and-author, div.answer-to-question-date-and-author
+div.advert-question-date-and-author, div.answer-to-question-date-and-author, div.order-date-and-author
 {
   border-bottom: 1px dotted #00000077;
+}
+
+div.order-state
+{
+  margin-top: 10px;
 }
 
 div.advert-question-data, div.answer-to-question-data
@@ -363,7 +395,7 @@ div.advert-question-data, div.answer-to-question-data
   flex: 1;
 }
 
-div.advert-question-date-and-author > *, div.answer-to-question-date-and-author > *
+div.advert-question-date-and-author > *, div.answer-to-question-date-and-author > *, div.order-date-and-author > *
 {
   margin-inline: 10px;
   margin-block: 5px;
@@ -383,20 +415,33 @@ div.advert-question-buttons
   border-top: 1px dotted #00000077;
 }
 
-div.advert-question-buttons > *
+div.advert-question-buttons > *, div.orders-buttons > *, div.my-clients-orders-buttons > *
 {
   margin-inline: 5px;
   margin-block: 5px;
 }
 
-div.basket-page
+div.order-item-buttons
+{
+  border-top: 1px dotted #00000077;
+  text-align: right;
+}
+
+div.basket-page, div.orders-list
 {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-div.basket-item
+div.orders-list
+{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+
+div.basket-item, div.order-item
 {
   display: flex;
   flex-direction: row;
@@ -406,19 +451,25 @@ div.basket-item
   margin-block: 5px;
 }
 
-div.basket-item-pict img
+div.basket-item-pict img, div.order-item-pict img
 {
   width: 150px;
   max-width: 25vw;
 }
 
-div.basket-item-details
+div.basket-item-details, div.order-item-details
 {
   flex: 1;
   border-left: 1px solid #00000077;
   text-align: left;
   padding-left: 5px;
   padding-right: 5px;
+}
+
+div.order-delivery-address
+{
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 div.basket-footer

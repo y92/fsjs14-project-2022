@@ -29,15 +29,17 @@ const Profile = (props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setLogin(user.data.login);
-        setLastName(user.data.lastName);
-        setFirstName(user.data.firstName);
-        setPhoto(user.data.photo);
-        setEmail(user.data.email);
-        setBirthDate(user.data.birthDate.substring(0, 10));
-        setAddress(user.data.address);
-        setZip(user.data.zip);
-        setCity(user.data.city);
+        if (user.data) {
+            setLogin(user.data.login);
+            setLastName(user.data.lastName);
+            setFirstName(user.data.firstName);
+            setPhoto(user.data.photo);
+            setEmail(user.data.email);
+            setBirthDate(user.data.birthDate.substring(0, 10));
+            setAddress(user.data.address);
+            setZip(user.data.zip);
+            setCity(user.data.city);
+        }
 
         if (!user.isLogged) {
             setRedirect(true);

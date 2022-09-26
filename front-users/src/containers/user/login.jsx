@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Navigate} from 'react-router-dom';
 import {login} from '../../api/user';
-import {createDispatchHook, useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import {connect} from '../../slices/userSlice';
 import { config } from '../../config';
 

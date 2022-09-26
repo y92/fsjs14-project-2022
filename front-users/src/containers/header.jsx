@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from '../slices/userSlice';
 import { selectBasket } from '../slices/basketSlice';
 import { selectPaymentPopup, display, dismiss } from '../slices/paymentPopupSlice';
+import { selectMyClientsOrders, setPendingOrders, setOrdersToSend, setSentOrders, setCancelledOrders } from '../slices/myClientsOrdersSlice';
 import * as icons from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { loadStripe } from '@stripe/stripe-js';
@@ -11,6 +12,8 @@ import { Elements } from '@stripe/react-stripe-js';
 import CheckOutPopupForm from '../components/checkout-popup-form';
 import { config } from '../config';
 
+import refreshMyClientsOrders from '../helpers/refreshMyClientsOrders';
+import refreshMyPutOrders from '../helpers/refreshMyPutOrders';
 // Header menu
 
 const Header = (props) => {
@@ -18,6 +21,7 @@ const Header = (props) => {
     const user = useSelector(selectUser);
     const basket = useSelector(selectBasket);
     const paymentPopup = useSelector(selectPaymentPopup);
+    const myClientsOrders = useSelector(selectMyClientsOrders);
 
     const dispatch = useDispatch();
 
@@ -38,6 +42,11 @@ const Header = (props) => {
         console.log(basket)
         dispatch(display(paymentPopup));
     }
+
+    useEffect(() => {
+        refreshMyClientsOrders(dispatch);
+        refreshMyPutOrders(dispatch);
+    }, [])
 
     return (
         <div className="header">
@@ -91,6 +100,7 @@ const Header = (props) => {
                     <Link className="link" to="/myAdverts"><FontAwesomeIcon icon={icons.faRectangleAd } title ="Mes annonces" /></Link>
                     <Link className="link" to="/profile"><FontAwesomeIcon icon={icons.faUser } title="Mon profil"/></Link>
                     <Link className="link" to="/basket"><FontAwesomeIcon icon={icons.faBasketShopping} title="Mon panier" /> {(basket.basket.length > 0) && <span className="basket-size">{basket.basket.length}</span>}</Link>
+                    <Link className="link" to="/myOrders"><FontAwesomeIcon icon={icons.faReceipt} title ="Mes commandes" /> {(myClientsOrders.pendingOrders.length > 0) && <span className="my-clients-orders-size" title={myClientsOrders.pendingOrders.length+" commande(s) à traiter"}>{myClientsOrders.pendingOrders.length}</span>}</Link>
                     <a className="link" onClick={addMoneyPopup}><FontAwesomeIcon icon={icons.faMoneyBill1Wave} title="Ajouter de l'argent"/> [{user.data.account.toFixed(2)} €]</a>
                     <Link className="link" to="/logout"><FontAwesomeIcon icon={icons.faPowerOff} title="Déconnexion" /> <span>[{user.data.login}]</span></Link>
                 </> : <>

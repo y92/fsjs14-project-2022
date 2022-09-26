@@ -1,4 +1,4 @@
-import {Image, Video, Transformation, CloudinaryContext} from "cloudinary-react";
+import {Image, Transformation, CloudinaryContext} from "cloudinary-react";
 import { config } from '../config';
 import imgNone from '../assets/imgNone.jpg';
 
@@ -22,7 +22,7 @@ const AdvertItem = (props) => {
                 <Image publicId={advert.mainPict} id="profileImg">
                     <Transformation quality="auto" fetchFormat="auto" />
                 </Image>
-            </CloudinaryContext> : <img src={imgNone}/>}
+            </CloudinaryContext> : <img src={imgNone} alt="pict"/>}
             </div>
             <div className="advert-descr"><i>{ advert.description.substring(0, 32)}</i></div>
             <div className="advert-price"><FontAwesomeIcon icon={icons.faMoneyBill1Wave}/> <span>{advert.price.toFixed(2)} €</span></div>

@@ -15,9 +15,8 @@ import EditAdvert from './containers/adverts/editAdvert';
 import ViewAdvert from './containers/adverts/viewAdvert';
 //import Search from './containers/search'
 //import Details from './containers/document/details'
+import MyOrders from './containers/orders/myOrders';
 import Basket from './containers/basket'
-import Payment from './containers/payment'
-import Result from './containers/result'
 import {Routes, Route} from 'react-router-dom';
 import RequireAuth from './helpers/require-data-auth';
 
@@ -39,10 +38,8 @@ function App() {
           <Route exact path="/addAdvert" element={<RequireAuth child={AddAdvert} auth={true} />} />
           <Route exact path="/editAdvert/:id" element={<RequireAuth child={EditAdvert} auth={true} />} />
           <Route exact path="/advert/:id" element={<RequireAuth child={ViewAdvert} auth={false} />} />
-
+          <Route exact path="/myOrders" element={<RequireAuth child={MyOrders} auth={true} />} />
           <Route exact path="/basket" element={<RequireAuth child={Basket} auth={false} />} />
-          <Route exact path="/payment" element={<RequireAuth child={Payment} auth={true} />}/>
-          <Route exact path="/result" element={<RequireAuth child={Result} auth={true} />}/>
         </Routes>
       </main>
       <Footer />
