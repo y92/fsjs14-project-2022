@@ -42,7 +42,10 @@ class UserModel {
     }
 
     static getUserById(id) {
-        return db.query("SELECT * FROM users WHERE id=?", [id])
+        return db.query(`SELECT us.*, 
+                        (SELECT count(clientNote) FROM order_details WHERE advert IN (SELECT id FROM adverts WHERE addedBy=us.id)) as nbClientsNotes,
+                        (SELECT avg(clientNote) FROM order_details WHERE advert IN (SELECT id FROM adverts WHERE addedBy=us.id)) as avgClientsNotes
+                        FROM users us WHERE us.id=?`, [id])
             .then((user) => {
                 return user;
             })
