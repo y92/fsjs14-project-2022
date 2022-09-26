@@ -197,11 +197,11 @@ const EditAdvert = (props) =>{
     return (
         <div>
             <h2>Éditer une annonce</h2>
-            {advert && (advert.addedBy === user.data.id) && <p>Vous pouvez éditer vos annonces</p> }
+            {advert && user.data && (advert.addedBy === user.data.id) && <p>Vous pouvez éditer vos annonces</p> }
             {advert ? (advert.addedBy === user.data.id ? <form className="c-form" onSubmit={submitForm}>
                 { mainPict != null ? <CloudinaryContext cloudName={cloudName}>
-                        <div>
-                            <Image publicId={mainPict} id="profileImg">
+                        <div className="advert-picture-big">
+                            <Image publicId={mainPict} id="advertMainPict">
                                 <Transformation quality="auto" fetchFormat="auto" />
                             </Image>
                         </div>
