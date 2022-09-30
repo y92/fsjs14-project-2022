@@ -14,13 +14,26 @@
   }
 }
 
-.header, .footer
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* HEADER 
+  =====================================================
+*/
+
+.page-header, .page-footer
 {
   background-color: #003412;
   width: 100%;
 }
 
-.header {
+.page-header {
   position:fixed;
   top:0;
   min-height: 15vh;
@@ -30,6 +43,42 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: #ffffff;
+}
+
+/* Header links for different screen sizes */
+
+@media(max-width: 320px) {
+  .link {
+    margin-inline: 1vw;
+  }
+}
+
+@media(min-width: 321px) and (max-width: 720px) {
+  .link {
+    margin-inline: 2vw;
+  }
+}
+
+
+@media(min-width: 721px) and (max-width: 992px) {
+  .link {
+    margin-inline: 3vw;
+  }
+}
+
+/* link */
+.link {
+  color: #ff6600;
+  text-decoration: none;
+  margin-inline: 4vw;
+  display: inline-block;
+}
+
+.link:hover
+{
+  font-weight: bold;
+  color: #ffdd11;
+  cursor: pointer;
 }
 
 span.basket-size, span.my-clients-orders-size
@@ -42,36 +91,19 @@ span.basket-size, span.my-clients-orders-size
   font-size: calc(8px + 1vmin);
 }
 
+/* MAIN 
+   =======================================================
+*/
+
 main 
 {
   min-height: 85vh;
   margin-top: 17vh;
 }
 
-.footer {
-  bottom: 0;
-  min-height: 15vh;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: #ffffff;
-}
-
-.link {
-  color: #ff6600;
-  text-decoration: none;
-  margin-inline: 5vw;
-  margin-block: 5vh;
-}
-
-.link:hover
-{
-  font-weight: bold;
-  color: #ffdd11;
-  cursor: pointer;
-}
+/* POPUPS
+  ========================================================
+*/
 
 .popup-background
 {
@@ -95,12 +127,13 @@ main
   overflow: hidden;
 }
 
-.answerQuestionPopup .popupContent *, .orderActionPopup .popupContent *
+.answerQuestionPopup .popupContent *, .deleteQuestionPopup .popupContent *, .orderActionPopup .popupContent *, .deleteOneFavoritePopup .popupContent *, 
+.deleteAllFavoritesPopup .popupContent *
 {
   max-width: 100%;
 }
 
-.orderActionPopup .popupContent
+.orderActionPopup .popupContent, .deleteQuestionPopup .popupContent, .deleteOneFavoritePopup .popupContent, .deleteAllFavoritesPopup .popupContent
 {
   margin-top: -20px;
   padding: 5px;
@@ -135,14 +168,10 @@ main
   right: 7px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+
+/* FORMS
+  ====================================================================
+ */
 
 .c-form
 {
@@ -188,6 +217,11 @@ main
   font-weight: bold;
 }
 
+
+/* BUTTONS
+   =========================================================================
+ */
+
 a.button
 {
   text-decoration: none;
@@ -204,36 +238,49 @@ a.button:hover
   color: #ffdd11;
 }
 
-a.confirm-button
+a.confirm-button, a.add-favorite-button
 {
   background-color: #009900;
 }
 
-a.confirm-button:hover
+a.confirm-button:hover, a.add-favorite-button:hover
 {
   color: #00ff00;
 }
 
-a.cancel-button
+a.cancel-button, a.delete-favorite-button
 {
   background-color: #990000;
 }
 
-a.cancel-button:hover
+a.cancel-button:hover, a.delete-favorite-button:hover
 {
   color: #ffaaaa;
 }
 
-div.top-buttons {
+section.top-buttons, section.advert-buttons {
   margin-bottom: 15px;
 }
 
-div.bottom-buttons
+section.bottom-buttons
 {
   margin-top: 15px;
+  margin-bottom: 20px;
 }
 
-div.advert-item
+
+/* ADVERTS PAGES
+   ==============================================================================
+ */
+
+ul.adverts, ul.basket-content, ul.advert-questions, ul.orders-list, ul.order-delivery, ul.order-delivery-address, ul.order-quantity-and-price, ul.order-state,
+ul.order-date-and-author
+{
+  padding: 0;
+  list-style-type: none;
+}
+
+li.advert-item
 {
   border: 1px solid #00000077;
   border-radius: 10px;
@@ -243,7 +290,7 @@ div.advert-item
   overflow: hidden;
 }
 
-div.advert-title
+header.advert-title
 {
   background-color: #003412;
   text-align: center;
@@ -253,37 +300,43 @@ div.advert-title
   padding: 0 10px;
 }
 
-div.advert-links
+footer.advert-links
 {
   padding: 15px;
 }
 
-div.advert-links > *, div.basket-buttons > *, div.orders-buttons > *, div.my-clients-orders-buttons > *, div.order-item-buttons > *, div.popupButtons > *
+footer.advert-links > *, div.basket-buttons > *, section.orders-buttons > *, div.my-clients-orders-buttons > *, footer.order-item-buttons > *, div.popupButtons > *
 {
   margin-inline: 5px;
   margin-block: 5px;
   display: inline-block;
 }
 
-div.advert-page h2
+@media(max-width: 576px) {
+  article.advert-page {
+    padding: 0 5px;
+  }
+}
+
+article.advert-page h2
 {
   color: #ff6600;
   font-size: 48px;
   margin-bottom: 0px;
 }
 
-div.advert-descr
+section.advert-descr
 {
   font-size: 20px;
 }
 
-div.advert-state
+section.advert-state
 {
   padding-bottom: 10px;
   border-bottom: 1px dotted #00000077;
 }
 
-div.advert-state *
+section.advert-state *
 {
   margin-inline: 5px;
   margin-block: 5px;
@@ -294,7 +347,7 @@ span.advert-state-title
   font-weight: bold;
 }
 
-div.advert-author-and-date
+section.advert-author-and-date
 {
   padding: 5px 0;
   border-bottom: 1px dotted #00000077;
@@ -312,25 +365,25 @@ div.advert-picture img
   max-height: 300px;
 }
 
-div.advert-picture-big img
+section.advert-picture-big img
 {
   max-height: 100vw;
 }
 
-div.advert-author-and-date span[class^=advert]
+section.advert-author-and-date span[class^=advert]
 {
   margin-inline: 10px;
   margin-block: 5px;
 }
 
-div.advert-price
+section.advert-price
 {
   font-size: 48px;
   font-weight: bold;
   color: #012377;
 }
 
-div.advert-questions
+ul.advert-questions
 {
   text-align: center;
   display: flex;
@@ -340,7 +393,7 @@ div.advert-questions
   margin-bottom: 10px;
 }
 
-div.advert-question-item, div.answer-to-question-item
+li.advert-question-item, li.answer-to-question-item
 {
   display: flex;
   flex-direction: row;
@@ -351,7 +404,7 @@ div.advert-question-item, div.answer-to-question-item
   margin-block: 5px;
 }
 
-div.answer-to-question-item
+li.answer-to-question-item
 {
   flex-direction: row-reverse;
   background-color: #ccffcc;
@@ -380,12 +433,37 @@ div.advert-question-asked-by-avatar img, div.answered-by-avatar img
   max-width: 20vw;
 }
 
-div.advert-question-date-and-author, div.answer-to-question-date-and-author, div.order-date-and-author
+div.advert-question-date-and-author, div.answer-to-question-date-and-author, ul.order-date-and-author
 {
   border-bottom: 1px dotted #00000077;
 }
 
-div.order-state
+header.order-title
+{
+  text-align: center;
+  width: 100%;
+}
+
+header.order-title a
+{
+  color: #ff6600;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+header.order-title a:hover
+{
+  color: #00aa99;
+}
+
+ul.order-date-and-author li
+{
+  display: inline-block;
+  margin-inline: 10px;
+  margin-block: 5px;
+}
+
+ul.order-state
 {
   margin-top: 10px;
 }
@@ -395,7 +473,7 @@ div.advert-question-data, div.answer-to-question-data
   flex: 1;
 }
 
-div.advert-question-date-and-author > *, div.answer-to-question-date-and-author > *, div.order-date-and-author > *
+div.advert-question-date-and-author > *, div.answer-to-question-date-and-author > *
 {
   margin-inline: 10px;
   margin-block: 5px;
@@ -421,27 +499,28 @@ div.advert-question-buttons > *, div.orders-buttons > *, div.my-clients-orders-b
   margin-block: 5px;
 }
 
-div.order-item-buttons
+footer.order-item-buttons
 {
   border-top: 1px dotted #00000077;
   text-align: right;
 }
 
-div.basket-page, div.orders-list
+section.basket-page, ul.orders-list
 {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-div.orders-list
+ul.orders-list
 {
   margin-top: 15px;
   margin-bottom: 15px;
   padding: 5px;
 }
 
-div.basket-item, div.order-item
+
+li.basket-item, li.order-item
 {
   display: flex;
   flex-direction: row;
@@ -466,13 +545,26 @@ div.basket-item-details, div.order-item-details
   padding-right: 5px;
 }
 
-div.order-delivery-address
+ul.order-delivery-address
 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-div.basket-footer
+div.basket-price-and-buttons
 {
   margin-bottom: 20px;
+}
+
+/* FOOTER */
+
+.page-footer {
+  bottom: 0;
+  min-height: 15vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #ffffff;
 }

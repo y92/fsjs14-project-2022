@@ -13,6 +13,7 @@ import MyAdverts from './containers/adverts/myAdverts';
 import AddAdvert from './containers/adverts/addAdvert';
 import EditAdvert from './containers/adverts/editAdvert';
 import ViewAdvert from './containers/adverts/viewAdvert';
+import Favorites from './containers/adverts/favorites';
 //import Search from './containers/search'
 //import Details from './containers/document/details'
 import MyOrders from './containers/orders/myOrders';
@@ -35,6 +36,7 @@ function App() {
           {/*<Route exact path="/search" element={<Search />} />
           <Route exact path="/details/:id" element={<Details />} />*/}
           <Route exact path="/myAdverts" element={<RequireAuth child={MyAdverts} auth={true} />} />
+          <Route exact path="/favorites" element={<RequireAuth child={Favorites} auth={true} />} />          
           <Route exact path="/addAdvert" element={<RequireAuth child={AddAdvert} auth={true} />} />
           <Route exact path="/editAdvert/:id" element={<RequireAuth child={EditAdvert} auth={true} />} />
           <Route exact path="/advert/:id" element={<RequireAuth child={ViewAdvert} auth={false} />} />

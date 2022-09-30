@@ -81,12 +81,12 @@ const AddAdvert = (props)=>{
     }
 
     return (
-        <div>
+        <article>
             <h2>Nouvelle annonce</h2>
             <p>Vous pouvez poster une nouvelle annonce</p>
             <form className="c-form" onSubmit={submitForm}>
-                <span>Catégorie</span>
-                <select onChange={(e) => { setCateg(e.currentTarget.value)}}>
+                <label for="selectCateg">Catégorie</label>
+                <select id="selectCateg" onChange={(e) => { setCateg(e.currentTarget.value)}}>
                     <option key={0} value="">&lt;Sans catégorie&gt;</option>
                     {advertCategs && advertCategs.map((elt) => {
                         return <option key={elt.id} value={elt.id}>{elt.formattedTitle}</option>
@@ -94,8 +94,8 @@ const AddAdvert = (props)=>{
                 </select>
                 <input placeholder="Titre de l'annonce" onChange={(e) => { setTitle(e.currentTarget.value )}}/>
                 <textarea placeholder="Description" onChange={(e) => { setDescription(e.currentTarget.value )}}/>
-                <span>État</span>
-                <select onChange={(e) => {
+                <label for="selectState">État</label>
+                <select id="selectState" onChange={(e) => {
                     //console.log("state", e.currentTarget.value);
                     setState(e.currentTarget.value);
                 }}>
@@ -109,7 +109,7 @@ const AddAdvert = (props)=>{
                 {error && <div className="error">{error}</div>}
                 <input type="submit" value="Ajouter" />
             </form>
-        </div>
+        </article>
     )
 }
 

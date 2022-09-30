@@ -30,16 +30,16 @@ const Home = (props)=>{
     }, [])
 
     return (
-        <div>
+        <article>
             <h2>Bienvenue</h2>
             <p>Ce site vous permet d'acheter et de vendre des documents multimédia.</p>
             <h3>Dernières annonces</h3>
-            <div className="adverts">
+            <ul className="adverts">
                 {lastAdverts.map((elt) => {
                     return <AdvertItem advert={elt} editButton={ user && user.isLogged && (user.data.id === elt.addedBy) } key={"advert-item-"+elt.id} />
                 })}
-            </div>
-        </div>
+            </ul>
+        </article>
     )
 }
 

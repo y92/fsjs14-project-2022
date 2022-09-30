@@ -5,6 +5,7 @@ import { selectUser } from '../slices/userSlice';
 import { selectBasket } from '../slices/basketSlice';
 import { selectPaymentPopup, display, dismiss } from '../slices/paymentPopupSlice';
 import { selectMyClientsOrders, setPendingOrders, setOrdersToSend, setSentOrders, setCancelledOrders } from '../slices/myClientsOrdersSlice';
+import { selectFavoriteAdverts } from '../slices/myFavoriteAdvertsSlice';
 import * as icons from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { loadStripe } from '@stripe/stripe-js';
@@ -14,6 +15,7 @@ import { config } from '../config';
 
 import refreshMyClientsOrders from '../helpers/refreshMyClientsOrders';
 import refreshMyPutOrders from '../helpers/refreshMyPutOrders';
+import refreshMyFavoriteAdverts from '../helpers/refreshMyFavoriteAdverts';
 // Header menu
 
 const Header = (props) => {
@@ -46,10 +48,11 @@ const Header = (props) => {
     useEffect(() => {
         refreshMyClientsOrders(dispatch);
         refreshMyPutOrders(dispatch);
+        refreshMyFavoriteAdverts(dispatch);
     }, [])
 
     return (
-        <div className="header">
+        <header className="page-header">
             {paymentPopup.display && 
                 <div className="popup-background">
                     <div className="popup moneyPopup">
@@ -98,6 +101,7 @@ const Header = (props) => {
                 </>
                 {user.isLogged ? <>
                     <Link className="link" to="/myAdverts"><FontAwesomeIcon icon={icons.faRectangleAd } title ="Mes annonces" /></Link>
+                    <Link className="link" to="/favorites"><FontAwesomeIcon icon={icons.faStar } title ="Mes favoris" /></Link>                    
                     <Link className="link" to="/profile"><FontAwesomeIcon icon={icons.faUser } title="Mon profil"/></Link>
                     <Link className="link" to="/basket"><FontAwesomeIcon icon={icons.faBasketShopping} title="Mon panier" /> {(basket.basket.length > 0) && <span className="basket-size">{basket.basket.length}</span>}</Link>
                     <Link className="link" to="/myOrders"><FontAwesomeIcon icon={icons.faReceipt} title ="Mes commandes" /> {(myClientsOrders.pendingOrders.length > 0) && <span className="my-clients-orders-size" title={myClientsOrders.pendingOrders.length+" commande(s) à traiter"}>{myClientsOrders.pendingOrders.length}</span>}</Link>
@@ -108,7 +112,7 @@ const Header = (props) => {
                     <Link className="link" to="/login"><FontAwesomeIcon icon={icons.faPowerOff} title="Connexion" /> <span>[Invité]</span></Link>
                 </>}
             </nav>
-        </div>
+        </header>
     )
 }
 

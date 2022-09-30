@@ -173,7 +173,7 @@ const MyOrders = (props) => {
     }
 
     return (
-        <div className="orders-page">
+        <article className="orders-page">
             {popupAction && selectedOrder && (
                 <div className="popup-background">
                     <div className="popup orderActionPopup">
@@ -213,12 +213,12 @@ const MyOrders = (props) => {
                 </div>
             )}
             <h2>Mes commandes</h2>
-            <div className="orders-buttons">
+            <section className="orders-buttons">
                 <a className="button" onClick={(e) => {setPage(MY_CLIENTS_ORDERS)}}><FontAwesomeIcon icon={icons.faArrowRightToBracket} /> <span>Commandes de mes clients</span></a>
                 <a className="button" onClick={(e) => {setPage(MY_PUT_ORDERS)}}><FontAwesomeIcon icon={icons.faArrowRightFromBracket} /> <span>Commandes effectuées</span></a>
-            </div>
+            </section>
             {page === MY_CLIENTS_ORDERS && (
-                <div className="my-clients-orders">
+                <section className="my-clients-orders">
                     <h3>Commandes de mes clients</h3>
                     <div className="my-clients-orders-buttons">
                         <a className="button" onClick={(e) => { setMyClientsOrdersPage(PENDING_ORDERS); }}><FontAwesomeIcon icon={icons.faCircleExclamation } /> <span>À traiter ({myClientsOrders.pendingOrders.length})</span></a>
@@ -228,7 +228,7 @@ const MyOrders = (props) => {
                     </div>
                     <div>{getMyClientsOrdersPageTitle()}</div>
                     {(myClientsOrders.pendingOrders.length > 0) && (myClientsOrdersPage === PENDING_ORDERS) && (
-                        <div className="orders-list">
+                        <ul className="orders-list">
                             {myClientsOrders.pendingOrders.map((elt) => {
                                 let buttons = [
                                     {
@@ -252,10 +252,10 @@ const MyOrders = (props) => {
                                 ]
                                 return <OrderItem order={elt} buttons={buttons} key={"order-"+elt.id} />
                             })}
-                        </div>
+                        </ul>
                     )}
                     {(myClientsOrders.ordersToSend.length > 0) && (myClientsOrdersPage === ORDERS_TO_SEND) && (
-                        <div className="orders-list">
+                        <ul className="orders-list">
                             {myClientsOrders.ordersToSend.map((elt) => {
                                 let buttons = [
                                     {
@@ -270,31 +270,31 @@ const MyOrders = (props) => {
                                 ]
                                 return <OrderItem order={elt} buttons={buttons} key={"order-"+elt.id} />
                             })}
-                        </div>
+                        </ul>
                     )}
                     {(myClientsOrders.sentOrders.length > 0) && (myClientsOrdersPage === SENT_ORDERS) && (
-                        <div className="orders-list">
+                        <ul className="orders-list">
                             {myClientsOrders.sentOrders.map((elt) => {
                                 let buttons = []
                                 return <OrderItem order={elt} buttons={buttons} key={"order-"+elt.id} />
                             })}
-                        </div>
+                        </ul>
                     )}
                     {(myClientsOrders.cancelledOrders.length > 0) && (myClientsOrdersPage === CANCELLED_ORDERS) && (
-                        <div className="orders-list">
+                        <ul className="orders-list">
                             {myClientsOrders.cancelledOrders.map((elt) => {
                                 let buttons = []
                                 return <OrderItem order={elt} buttons={buttons} key={"order-"+elt.id} />
                             })}
-                        </div>
+                        </ul>
                     )}                    
-                </div>
+                </section>
             )}
             {page === MY_PUT_ORDERS && (
-                <div className="my-put-orders">
+                <section className="my-put-orders">
                     <h3>Commandes effectuées</h3>
                     {myPutOrders.orders && (myPutOrders.orders.length > 0) && (
-                        <div className="orders-list">
+                        <ul className="orders-list">
                             {myPutOrders.orders.map((elt) => {
                                 let buttons = [];
                                 if (elt.sentOn && !elt.receivedOn) {
@@ -312,11 +312,11 @@ const MyOrders = (props) => {
                                 }
                                 return <OrderItem order={elt} buttons={buttons} key={"order-"+elt.id} />
                             })}
-                        </div>
+                        </ul>
                     )}
-                </div>
+                </section>
             )}
-        </div>
+        </article>
     )
 }
 

@@ -27,7 +27,7 @@ const Footer = (props) => {
     }, [])
 
     return (
-        <div className="footer">
+        <footer className="page-footer">
             <div>© me ({ date })</div>
             {/*<nav>
                 <div>
@@ -35,7 +35,7 @@ const Footer = (props) => {
                     <Link className="link" to="/faq"><FontAwesomeIcon icon={icons.faQuestionCircle } /> FAQ</Link>
                 </div>
             </nav>*/}
-        </div>
+        </footer>
     )
 }
 

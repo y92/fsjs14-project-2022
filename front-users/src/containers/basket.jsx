@@ -73,19 +73,20 @@ const Basket = (props) => {
     }
 
     return (
-        <div>
+        <article>
             <h2>Mon panier</h2>
-            {basket.basket.length > 0 ? (
-                <div className="basket-page">
+            {basket.basket.length > 0 ? (            
+            <section className="basket-page">
+                <ul className="basket-content">
                     {basket.basket.map((elt) => {
                         return (
-                            <div className="basket-item" key={"basket-item-"+elt.advertId}>
+                            <li className="basket-item" key={"basket-item-"+elt.advertId}>
                                 <div className="basket-item-pict">
                                     { elt.mainPict != null ? <CloudinaryContext cloudName={cloudName}>
                                         <Image publicId={elt.mainPict}>
                                             <Transformation quality="auto" fetchFormat="auto" />
                                         </Image>
-                                    </CloudinaryContext> : <img src={imgNone}/>}
+                                    </CloudinaryContext> : <img src={imgNone} alt="pict"/>}
                                 </div>
                                 <div className="basket-item-details">
                                     <p><Link to={"/advert/"+elt.advertId}>{elt.title}</Link></p>
@@ -97,26 +98,27 @@ const Basket = (props) => {
                                                 removeFromBasket(basket.basket, elt)
                                             }}><FontAwesomeIcon icon={icons.faMinus} /> <span>Retirer</span></a></p>
                                 </div>
-                            </div>
+                            </li>
                         )
                     })}
-                    <div className="basket-footer">
-                        <p><b>Prix total :</b> <span>{basket.totalPrice.toFixed(2)} €</span></p>
-                        <div className="basket-buttons">
-                            <a className="button" onClick={emptyBasket}><FontAwesomeIcon icon={icons.faTimes} /> <span>Vider mon panier</span></a>
-                            <a className="button" onClick={displayPaymentForm}><FontAwesomeIcon icon={icons.faCreditCard} /> <span>Payer</span></a>
-                        </div>
+                </ul>
+                <div className="basket-footer">
+                    <p><b>Prix total :</b> <span>{basket.totalPrice.toFixed(2)} €</span></p>
+                    <div className="basket-buttons">
+                        <a className="button" onClick={emptyBasket}><FontAwesomeIcon icon={icons.faTimes} /> <span>Vider mon panier</span></a>
+                        <a className="button" onClick={displayPaymentForm}><FontAwesomeIcon icon={icons.faCreditCard} /> <span>Payer</span></a>
                     </div>
-                    {paymentForm && (
-                        <div className="payment-form">
-                            <Elements stripe={stripePromise}>
-                                <CheckOutBasketForm emptyBasket={emptyBasket} />
-                            </Elements>
-                        </div>
-                    )}                    
                 </div>
-            ) : <p>Votre panier est vide.</p>}
-        </div>
+                {paymentForm && (
+                    <div className="payment-form">
+                        <Elements stripe={stripePromise}>
+                            <CheckOutBasketForm emptyBasket={emptyBasket} />
+                        </Elements>
+                    </div>
+                )}
+            </section>
+            ) : <section className="basket-page"><p>Votre panier est vide.</p></section>}
+        </article>
     )
 }
 

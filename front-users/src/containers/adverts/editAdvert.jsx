@@ -195,25 +195,25 @@ const EditAdvert = (props) =>{
     }
 
     return (
-        <div>
+        <article>
             <h2>Éditer une annonce</h2>
             {advert && user.data && (advert.addedBy === user.data.id) && <p>Vous pouvez éditer vos annonces</p> }
             {advert ? (advert.addedBy === user.data.id ? <form className="c-form" onSubmit={submitForm}>
                 { mainPict != null ? <CloudinaryContext cloudName={cloudName}>
-                        <div className="advert-picture-big">
+                        <section className="advert-picture-big">
                             <Image publicId={mainPict} id="advertMainPict">
                                 <Transformation quality="auto" fetchFormat="auto" />
                             </Image>
-                        </div>
-                    </CloudinaryContext> : <div><img src={imgNone}/></div>}
+                        </section>
+                    </CloudinaryContext> : <section><img src={imgNone} alt="pict"/></section>}
                         {/*photo && <img src="{photo}" alt="photo" />*/}
 
-                    <button onClick={(e) => {
+                    <a className="button" onClick={(e) => {
                         e.preventDefault();
                         showWidget();
-                    }}>Changer l'image principale</button>
-                <span>Catégorie</span>
-                <select onChange={(e) => { setCateg(e.currentTarget.value)}}>
+                    }}><FontAwesomeIcon icon={icons.faImage} /> <span>Changer l'image principale</span></a>
+                <label for="selectCateg">Catégorie</label>
+                <select id="selectCateg" onChange={(e) => { setCateg(e.currentTarget.value)}}>
                     <option key={0} value="">&lt;Sans catégorie&gt;</option>
                     {advertCategs.length > 0 && advertCategs.map((elt) => {
                         return <option key={elt.id} value={elt.id} selected={categ === elt.id }>{elt.formattedTitle}</option>
@@ -221,8 +221,8 @@ const EditAdvert = (props) =>{
                 </select>
                 <input placeholder="Titre de l'annonce" value={ title } onChange={(e) => { setTitle(e.currentTarget.value )}}/>
                 <textarea placeholder="Description" value={ description } onChange={(e) => { setDescription(e.currentTarget.value )}}/>
-                <span>État</span>
-                <select onChange={(e) => {
+                <label for="selectState">État</label>
+                <select id="selectState" onChange={(e) => {
                     //console.log("state", e.currentTarget.value);
                     setState(e.currentTarget.value);
                 }}>
@@ -236,7 +236,7 @@ const EditAdvert = (props) =>{
                 {error && <div className="error">{error}</div>}
                 <input type="submit" value="Ajouter" />
             </form> : <div className="error">Vous ne pouvez pas modifier une annonce dont vous n'êtes pas l'auteur</div>) : (advertError && <div className="error">{ advertError }</div>) }
-        </div>
+        </article>
     )
 }
 

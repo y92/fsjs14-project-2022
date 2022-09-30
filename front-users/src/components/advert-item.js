@@ -11,12 +11,16 @@ const AdvertItem = (props) => {
 
     const advert = props.advert;
     const editButton = props.editButton;
+    const deleteFavoriteButton = props.deleteFavoriteButton || false;
+    const viewButton = (props.viewButton !== undefined) ? props.viewButton : true;
+
+    const itemKey = advert.id;
 
     const cloudName = config.CLOUD_NAME;
 
     return (
-        <div className="advert-item" key={"advert-"+advert.id}>
-            <div className="advert-title">{ advert.title }</div>
+        <li className="advert-item" key={itemKey}>
+            <header className="advert-title">{ advert.title }</header>
             <div className="advert-picture">
             { advert.mainPict != null ? <CloudinaryContext cloudName={cloudName}>
                 <Image publicId={advert.mainPict} id="profileImg">
@@ -26,11 +30,12 @@ const AdvertItem = (props) => {
             </div>
             <div className="advert-descr"><i>{ advert.description.substring(0, 32)}</i></div>
             <div className="advert-price"><FontAwesomeIcon icon={icons.faMoneyBill1Wave}/> <span>{advert.price.toFixed(2)} €</span></div>
-            <div className="advert-links">
+            <footer className="advert-links">
                 {editButton && <Link className="button" to={`/editAdvert/${advert.id}`}><FontAwesomeIcon icon={icons.faEdit} /> <span>Modifier</span></Link> }
-                <Link className="button" to={`/advert/${advert.id}`}><FontAwesomeIcon icon={icons.faEye} /> <span>Voir</span></Link>
-            </div>
-        </div>
+                {viewButton && <Link className="button" to={`/advert/${advert.id}`}><FontAwesomeIcon icon={icons.faEye} /> <span>Voir</span></Link> }
+                {deleteFavoriteButton && <a className="button" onClick={deleteFavoriteButton.onClick}><FontAwesomeIcon icon={icons.faMinusCircle} /> <span>Supprimer de mes favoris</span></a>}
+            </footer>
+        </li>
     )
 }
 
