@@ -97,7 +97,7 @@ const Header = (props) => {
             <nav>
                 <>
                     <Link className="link" to="/"><FontAwesomeIcon icon={icons.faHouse} title="Accueil" /></Link>
-                    <Link className="link" to="/search"><FontAwesomeIcon icon={icons.faSearch} title="Rechercher" /></Link>
+                    {/*<Link className="link" to="/search"><FontAwesomeIcon icon={icons.faSearch} title="Rechercher" /></Link>*/}
                 </>
                 {user.isLogged ? <>
                     <Link className="link" to="/myAdverts"><FontAwesomeIcon icon={icons.faRectangleAd } title ="Mes annonces" /></Link>
