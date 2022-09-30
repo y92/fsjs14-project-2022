@@ -225,6 +225,130 @@ module.exports = (app, db) => {
 
     })
 
+    // get my favorite adverts
+    app.get('/api/v1/getMyFavoriteAdverts', withAuthUser, async (req, res, next) => {
+
+        let myFavorites = await AdvertModel.getMyFavoriteAdverts(req);
+
+        if (myFavorites.code) {
+            console.error(myFavorites);
+            res.json({ status: 500, error: "Erreur interne"});
+        }
+        else {
+            res.json({ status: 200, myFavorites: myFavorites });
+        }
+    })
+
+    // add as favorite
+    app.post('/api/v1/addAdvertAsFavorite/:advertId', withAuthUser, async (req, res, next) => {
+        let advertId = req.params.advertId;
+
+        if (isNaN(advertId)) {
+            res.json({ status: 401, error: "L'annonce sélectionnée n'existe pas"});
+        }
+
+        let checkAdvert = await AdvertModel.getAdvertById(advertId);
+
+        if (checkAdvert.code) {
+            console.error(checkAdvert);
+            res.json({status: 500, error: "Erreur interne (1)"});
+        }
+        else if (checkAdvert.length < 1) {
+            res.json({ status: 401, error: "L'annonce sélectionnée n'existe pas"});
+        }
+        else {
+            let checkHasFavorite = await AdvertModel.hasFavorite(req, advertId);
+
+            if (checkHasFavorite.code) {
+                console.error(checkHasFavorite);
+                res.json({ status: 500, error: "Erreur interne (2)"});
+            }
+            else if (checkHasFavorite.length > 0) {
+                res.json({ status: 401, error: "Cette annonce est déjà dans vos favoris"});
+            }
+            else {
+                let addAsFavorite = await AdvertModel.addAsFavorite(req, advertId);
+
+                if (addAsFavorite.code) {
+                    console.error(addAsFavorite);
+                    res.json({ status: 500, error: "Erreur interne (3)"});
+                }
+                else {
+                    let myFavorites = await AdvertModel.getMyFavoriteAdverts(req);
+
+                    if (myFavorites.code) {
+                        res.json({status: 500, error: "Erreur interne (4)"});
+                    }
+                    else {
+                        res.json({ status: 200, myFavorites: myFavorites });
+                    }
+                }
+            }
+        }
+    })
+
+    // delete one favorite
+    app.delete('/api/v1/deleteAdvertFromFavorites/:advertId', withAuthUser, async (req, res, next) => {
+        let advertId = req.params.advertId;
+
+        if (isNaN(advertId)) {
+            res.json({ status: 401, error: "L'annonce sélectionnée n'existe pas"});
+        }
+
+        let checkAdvert = await AdvertModel.getAdvertById(advertId);
+
+        if (checkAdvert.code) {
+            console.error(checkAdvert);
+            res.json({status: 500, error: "Erreur interne (1)"});
+        }
+        else if (checkAdvert.length < 1) {
+            res.json({ status: 401, error: "L'annonce sélectionnée n'existe pas"});
+        }
+        else {
+            let checkHasFavorite = await AdvertModel.hasFavorite(req, advertId);
+
+            if (checkHasFavorite.code) {
+                console.error(checkHasFavorite);
+                res.json({ status: 500, error: "Erreur interne (2)"});
+            }
+            else if (checkHasFavorite.length < 1) {
+                res.json({ status: 401, error: "Cette annonce n'est pas dans vos favoris"});
+            }
+            else {
+                let deleteOneFavorite = await AdvertModel.deleteOneFavorite(req, advertId);
+
+                if (deleteOneFavorite.code) {
+                    console.error(deleteOneFavorite);
+                    res.json({ status: 500, error: "Erreur interne (3)"});
+                }
+                else {
+                    let myFavorites = await AdvertModel.getMyFavoriteAdverts(req);
+
+                    if (myFavorites.code) {
+                        res.json({status: 500, error: "Erreur interne (4)"});
+                    }
+                    else {
+                        res.json({ status: 200, myFavorites: myFavorites });
+                    }
+                }
+            }
+        }
+    })
+
+    // delete all favorites
+    app.delete('/api/v1/deleteAllAdvertsFromFavorites', withAuthUser, async (req, res, next) => {
+
+        let deleteAllFavorites = await AdvertModel.deleteAllFavorites(req);
+
+        if (deleteAllFavorites.code) {
+            console.error(deleteAllFavorites);
+            res.json({ status: 500, error: "Errur interne"})
+        }
+        else {
+            res.json({ status: 200})
+        }
+    })
+    
     // get advert questions
     app.get('/api/v1/getAdvertQuestions/:advertId', async (req, res, next) => {
         let advertId = req.params.advertId;
@@ -270,7 +394,7 @@ module.exports = (app, db) => {
             res.json({ status: 500, error: "Erreur interne (2)"});
         }
         else {
-            let questions = await getAdvertQuestions(advert[0].id);
+            let questions = await AdvertModel.getAdvertQuestions(advert[0].id);
             if (questions.code) {
                 res.json({ status: 500, error: "Erreur interne (3)"})
             }
@@ -318,23 +442,35 @@ module.exports = (app, db) => {
             res.json({ status: 401, error: "La question sélectionnée n'existe pas."});
         }
 
-        let question = AdvertModel.getQuestionById(id);
+        let question = await AdvertModel.getAdvertQuestionById(id);
 
         if (question.code) {
             console.error(question);
             res.json({ status: 500, error: "Erreur interne (1)"});
         }
         else if (question.length < 1) {
-            res.json({ status: 401, error: "La question sélectionnée n'existe pas"});
+            res.json({ status: 401, error: "La question sélectionnée n'existe pas."});
+        }
+        else if (question[0].askedBy !== req.id) {
+            res.json({ status: 403, error: "Vous ne pouvez pas supprimer une question dont vous n'êtes pas l'auteur"});
+        }
+        else if (question[0].answer) {
+            res.json({ status: 403, error: "Vous ne pouvez pas supprimer une question ayant eu une réponse"});
         }
         else {
-            let deleteQuestion = await deleteQuestion(id);
+            let deleteQuestion = await AdvertModel.deleteQuestion(id);
 
             if (deleteQuestion.code) {
                 res.json({ status: 500, error: "Erreur interne (2)"});
             } 
             else {
-                res.json({ status: 200 })
+                let questions = await AdvertModel.getAdvertQuestions(question[0].advert);
+                if (questions.code) {
+                    res.json({ status: 500, error: "Erreur interne (3)"})
+                }
+                else {
+                    res.json({ status: 200, questions: questions});
+                }
             }
         }
     })

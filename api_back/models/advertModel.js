@@ -98,6 +98,56 @@ class AdvertModel {
         })
     }
 
+    static getMyFavoriteAdverts(req) {
+        return db.query('SELECT * FROM adverts WHERE id IN (SELECT advert FROM advert_favorites WHERE user=?)', [req.id])
+        .then((res) => {
+            return res;
+        })
+        .catch((err) => {
+            return err;
+        })
+    }
+
+    static hasFavorite(req, advertId) {
+        return db.query('SELECT * FROM advert_favorites WHERE user=? AND advert=?', [req.id, advertId])
+        .then((res) => {
+            return res;
+        })
+        .catch((err) => {
+            return err;
+        })
+    }
+
+    static addAsFavorite(req, advertId) {
+        return db.query('INSERT INTO advert_favorites(user, advert) VALUES(?,?)', [req.id, advertId])
+        .then((res) => {
+            return res;
+        })
+        .catch((err) => {
+            return err;
+        })
+    }
+
+    static deleteOneFavorite(req, advertId) {
+        return db.query('DELETE FROM advert_favorites WHERE user=? AND advert=?', [req.id, advertId])
+        .then((res) => {
+            return res;
+        })
+        .catch((err) => {
+            return err;
+        })
+    }
+
+    static deleteAllFavorites(req) {
+        return db.query('DELETE FROM advert_favorites WHERE user=?', [req.id])
+        .then((res) => {
+            return res;
+        })
+        .catch((err) => {
+            return err;
+        })
+    }
+
     static getAdvertQuestions(advertId) {
         return db.query(`SELECT adq.*, (SELECT login FROM users WHERE id=adq.askedBy) AS askedByLogin, (SELECT photo FROM users WHERE id=adq.askedBy) AS askedByPhoto,
                         (SELECT login FROM users WHERE id=adq.answeredBy) AS answeredByLogin, (SELECT photo FROM users WHERE id=adq.answeredBy) AS answeredByPhoto
@@ -132,6 +182,16 @@ class AdvertModel {
 
     static answerQuestion(questionId, req) {
         return db.query("UPDATE advert_questions SET answer=trim(?), answeredBy=?, answeredOn=NOW() WHERE id=?", [req.body.answer, req.id, questionId])
+        .then((res) => {
+            return res;
+        })
+        .catch((err) => {
+            return err;
+        })
+    }
+
+    static deleteQuestion(questionId) {
+        return db.query("DELETE FROM advert_questions WHERE id=?", [questionId])
         .then((res) => {
             return res;
         })
