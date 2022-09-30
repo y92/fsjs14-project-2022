@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : lun. 26 sep. 2022 à 10:43
+-- Généré le : ven. 30 sep. 2022 à 18:12
 -- Version du serveur : 10.5.15-MariaDB-0+deb11u1
 -- Version de PHP : 8.1.10
 
@@ -99,6 +99,17 @@ INSERT INTO `advert_categs` (`id`, `title`, `descr`, `parent`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `advert_favorites`
+--
+
+CREATE TABLE `advert_favorites` (
+  `user` int(11) NOT NULL,
+  `advert` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `advert_notes`
 --
 
@@ -149,7 +160,9 @@ CREATE TABLE `advert_questions` (
 --
 
 INSERT INTO `advert_questions` (`id`, `advert`, `question`, `askedBy`, `askedOn`, `answer`, `answeredBy`, `answeredOn`) VALUES
-(1, 10, 'test juste pour poser une question', 4, '2022-09-20 05:57:45', 'test réponse', 3, '2022-09-22 05:43:28');
+(1, 10, 'test juste pour poser une question', 4, '2022-09-20 05:57:45', 'test réponse', 3, '2022-09-22 05:43:28'),
+(3, 2, 'test question 1', 3, '2022-09-30 09:01:22', NULL, NULL, NULL),
+(5, 2, 'encore un test 3', 3, '2022-09-30 09:01:39', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -322,6 +335,12 @@ ALTER TABLE `advert_categs`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `advert_favorites`
+--
+ALTER TABLE `advert_favorites`
+  ADD PRIMARY KEY (`user`,`advert`);
+
+--
 -- Index pour la table `advert_notes`
 --
 ALTER TABLE `advert_notes`
@@ -404,7 +423,7 @@ ALTER TABLE `advert_categs`
 -- AUTO_INCREMENT pour la table `advert_questions`
 --
 ALTER TABLE `advert_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `advert_states`
@@ -453,6 +472,13 @@ ALTER TABLE `adverts`
 --
 ALTER TABLE `advert_categs`
   ADD CONSTRAINT `advert_categs_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `advert_categs` (`id`);
+
+--
+-- Contraintes pour la table `advert_favorites`
+--
+ALTER TABLE `advert_favorites`
+  ADD CONSTRAINT `advert_favorites_ibfk_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `advert_favorites_ibfk_2` FOREIGN KEY (`advert`) REFERENCES `adverts` (`id`);
 
 --
 -- Contraintes pour la table `advert_notes`
