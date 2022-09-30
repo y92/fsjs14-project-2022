@@ -9,18 +9,18 @@ export const answerQuestionPopupSlice = createSlice({
     name: "answerQuestionPopup",
     initialState,
     reducers: {
-        setDisplay: (state, action) => {
+        setDisplayAnswerQuestionPopup: (state, action) => {
             state.display = action.payload
         },
-        setQuestion: (state, action) => {
+        setQuestionToAnswer: (state, action) => {
             state.question = action.payload;
         },
-        display: (state) => {
+        displayAnswerQuestionPopup: (state) => {
             //console.log("display");
             //console.log(state.question);
             state.display = true;
         },
-        dismiss: (state) => {
+        dismissAnswerQuestionPopup: (state) => {
             //console.log("dismiss");
             state.question = null;
             state.display = false;
@@ -28,7 +28,7 @@ export const answerQuestionPopupSlice = createSlice({
     }
 })
 
-export const {setQuestion, display, dismiss} = answerQuestionPopupSlice.actions;
+export const {setQuestionToAnswer, displayAnswerQuestionPopup, dismissAnswerQuestionPopup} = answerQuestionPopupSlice.actions;
 
 // selectors
 export const selectAnswerQuestionPopup = state => state.answerQuestionPopup;

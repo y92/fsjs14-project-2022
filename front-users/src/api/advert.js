@@ -92,6 +92,46 @@ export const editAdvertMainPict = (pict, advertId) => {
     })
 }
 
+export const getMyFavoriteAdverts = () => {
+    return axios.get(`${config.API_URL}/api/v1/getMyFavoriteAdverts`, {headers: { 'x-access-token': token}})
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}
+
+export const addAdvertAsFavorite = (advertId) => {
+    return axios.post(`${config.API_URL}/api/v1/addAdvertAsFavorite/${advertId}`, undefined, {headers: {'x-access-token': token}})
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}
+
+export const deleteAdvertFromFavorites = (advertId) => {
+    return axios.delete(`${config.API_URL}/api/v1/deleteAdvertFromFavorites/${advertId}`, {headers: {'x-access-token': token}})
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}
+
+export const deleteAllAdvertsFromFavorites = () => {
+    return axios.delete(`${config.API_URL}/api/v1/deleteAllAdvertsFromFavorites`, {headers: {'x-access-token': token}})
+    .then((res) => {
+        return res.data;
+    })
+    .catch((err) => {
+        return err;
+    })
+}
+
 export const getAdvertQuestions = (advertId) => {
     return axios.get(`${config.API_URL}/api/v1/getAdvertQuestions/${advertId}`, undefined, {headers: {'x-access-token': token}})
     .then((res) => {
@@ -123,7 +163,7 @@ export const answerQuestion = (questionId, data) => {
 }
 
 export const deleteQuestion = (questionId) => {
-    return axios.delete(`${config.API_URL}/api/v1/deleteQuestion/${questionId}`, undefined, {headers: {'x-access-token': token}})
+    return axios.delete(`${config.API_URL}/api/v1/deleteQuestion/${questionId}`, {headers: {'x-access-token': token}})
     .then((res) => {
         return res.data;
     })
