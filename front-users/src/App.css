@@ -258,8 +258,12 @@ a.cancel-button:hover, a.delete-favorite-button:hover
   color: #ffaaaa;
 }
 
-section.top-buttons, section.advert-buttons {
+section.top-buttons, section.advert-buttons, section.avatar-buttons {
   margin-bottom: 15px;
+}
+
+section.avatar-buttons {
+  margin-top: 15px;
 }
 
 section.bottom-buttons
@@ -268,6 +272,32 @@ section.bottom-buttons
   margin-bottom: 20px;
 }
 
+/**
+  PROFILE PAGE
+  */
+
+section.profile-avatar
+{
+  border: 1px solid #00000077;
+  border-radius: 10px;
+}
+
+section.profile-avatar, section.profile-avatar div
+{
+  width: 320px;
+  height: 320px;
+  max-width: 95vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+section.profile-avatar img {
+  width: auto;
+  height: auto;
+  max-height: 100%;
+  max-width: 100%
+}
 
 /* ADVERTS PAGES
    ==============================================================================
@@ -359,15 +389,53 @@ div.advert-nb-of-items, div.advert-no-more-items
   margin-bottom: 10px;
 }
 
-
-div.advert-picture img
+div.advert-picture
 {
-  max-height: 300px;
+
+  height: 300px;
+  width: 300px;
+  padding: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div.advert-picture div {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div.advert-picture img, div.advert-picture div img
+{
+  width: auto;
+  height: auto;
+  max-height: 100%;
+}
+
+section.advert-picture-big
+{
+  border: 1px dotted #00000077;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+section.advert-picture-big, section.advert-picture-big div
+{
+  width: 640px;
+  max-width: 95vw;
+  height: 640px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 section.advert-picture-big img
 {
-  max-height: 100vw;
+  max-height: 100%;
 }
 
 section.advert-author-and-date span[class^=advert]
@@ -528,12 +596,18 @@ li.basket-item, li.order-item
   border-radius: 10px;
   overflow: hidden;
   margin-block: 5px;
+  width: 480px;
+  max-width: 95vw;
+}
+
+div.basket-item-pict, div.basket-item-pict div, div.order-item-pict, div.order-item-pict div {
+  width: 150px;
+  max-width: 25vw;
 }
 
 div.basket-item-pict img, div.order-item-pict img
 {
-  width: 150px;
-  max-width: 25vw;
+  max-width: 100%;
 }
 
 div.basket-item-details, div.order-item-details

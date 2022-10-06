@@ -201,7 +201,7 @@ const EditAdvert = (props) =>{
             {advert ? (advert.addedBy === user.data.id ? <form className="c-form" onSubmit={submitForm}>
                 { mainPict != null ? <CloudinaryContext cloudName={cloudName}>
                         <section className="advert-picture-big">
-                            <Image publicId={mainPict} id="advertMainPict">
+                            <Image publicId={mainPict} id="advertMainPict" alt="pict">
                                 <Transformation quality="auto" fetchFormat="auto" />
                             </Image>
                         </section>

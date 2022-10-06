@@ -22,10 +22,10 @@ const OrderItem = (props) => {
         <li className="order-item" key={key}>
             <div className="order-item-pict">
                 { order.mainPict != null ? <CloudinaryContext cloudName={cloudName}>
-                <Image publicId={order.mainPict}>
+                <Image publicId={order.mainPict} alt="order-pict">
                     <Transformation quality="auto" fetchFormat="auto" />
                 </Image>
-                </CloudinaryContext> : <img src={imgNone} alt="pict"/>}
+                </CloudinaryContext> : <img src={imgNone} alt="order-pict"/>}
             </div>
             <div className="order-item-details">
                 <header className="order-title">
@@ -33,7 +33,7 @@ const OrderItem = (props) => {
                 </header>
                 <ul className="order-date-and-author">
                     <li><FontAwesomeIcon icon={icons.faCalendarAlt } /> <span>{ makeDate(order.orderedOn ) }</span></li> 
-                    <li><Link to={"/users/"+order.client}><FontAwesomeIcon icon={icons.faUser} /> <span>{ order.clientLogin}</span></Link></li>
+                    <li><Link to={"/user/"+order.client}><FontAwesomeIcon icon={icons.faUser} /> <span>{ order.clientLogin}</span></Link></li>
                 </ul>
                 <ul className="order-delivery-address">
                         <li>{ order.clientFirstName } { order.clientLastName }</li>

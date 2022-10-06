@@ -5,6 +5,9 @@ import {selectUser, afterUpdateProfile} from '../../slices/userSlice'
 import {getUserById, updateProfile, changePhoto} from '../../api/user';
 import {Image, Video, Transformation, CloudinaryContext} from "cloudinary-react";
 import { config } from '../../config';
+import defaultAvatar from '../../assets/memberPhotoNone.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as icons from '@fortawesome/free-solid-svg-icons';
 
 const Profile = (props) => {
 
@@ -159,19 +162,20 @@ const Profile = (props) => {
                     e.preventDefault();
                     onSubmitForm();
                   }}>
-                { photo !== null && <CloudinaryContext cloudName={cloudName}>
-                    <div>
-                        <Image publicId={photo} id="profileImg">
-                            <Transformation quality="auto" fetchFormat="auto" />
-                        </Image>
-                    </div>
-                </CloudinaryContext>}
-                    {/*photo && <img src="{photo}" alt="photo" />*/}
-
-                <button onClick={(e) => {
-                    e.preventDefault();
-                    showWidget();
-                }}>Changer ma photo de profil</button>
+                <section className="profile-avatar">
+                    { photo !== null ? <CloudinaryContext cloudName={cloudName}>
+                            <Image publicId={photo} id="profileImg" alt="avatar">
+                                <Transformation quality="auto" fetchFormat="auto" />
+                            </Image>
+                    </CloudinaryContext> : <img src={defaultAvatar} alt="avatar" />}
+                        {/*photo && <img src="{photo}" alt="photo" />*/}
+                </section>
+                <section className="avatar-buttons">
+                    <a class="button" onClick={(e) => {
+                        e.preventDefault();
+                        showWidget();
+                    }}><FontAwesomeIcon icon={icons.faUser} /> <span>Changer ma photo de profil</span></a>
+                </section>
                 <input type="text"
                         placeholder="Votre login"
                         onChange={(e) => {

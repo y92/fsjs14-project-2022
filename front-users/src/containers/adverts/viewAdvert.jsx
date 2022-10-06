@@ -338,7 +338,7 @@ const ViewAdvert = (props)=>{
                 : <div className="advert-no-more-items">Produit épuisé</div>}
             <section className="advert-picture-big">
                 { advert.mainPict != null ? <CloudinaryContext cloudName={cloudName}>
-                    <Image publicId={advert.mainPict}>
+                    <Image publicId={advert.mainPict} alt="pict">
                         <Transformation quality="auto" fetchFormat="auto" />
                     </Image>
                 </CloudinaryContext> : <img src={imgNone} alt="pict"/>}
