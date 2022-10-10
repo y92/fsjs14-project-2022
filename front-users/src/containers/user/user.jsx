@@ -80,7 +80,7 @@ const User = (props)=>{
                     <div className="adverts">
                         {adverts.map((elt) => {
                             return (
-                                <AdvertItem advert={elt} editButton={user && user.data.id === otherUser.id} />
+                                <AdvertItem advert={elt} editButton={user && user.isLogged && (user.data.id === otherUser.id)} />
                             )                        
                         })}
                     </div>
