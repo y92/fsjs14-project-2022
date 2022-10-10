@@ -89,7 +89,7 @@ const Basket = (props) => {
                                     </CloudinaryContext> : <img src={imgNone} alt={elt.title}/>}
                                 </div>
                                 <div className="basket-item-details">
-                                    <p><Link to={"/advert/"+elt.advertId}>{elt.title}</Link></p>
+                                    <p><Link to={"/advert/"+elt.advertId} title="Voir l'annonce en détails">{elt.title}</Link></p>
                                     <p><b>Quantité :</b> <input type="number" value={elt.selectedQuantity} min="1" max={elt.maxQuantity} placeholder="?" onChange={(e) => {changeQuantity(basket.basket, elt, e.currentTarget.value)}}/></p>
                                     <p><b>Prix</b> <span>{(elt.selectedQuantity * elt.price).toFixed(2)} €</span></p>
                                     <p><b></b></p>

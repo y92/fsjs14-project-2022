@@ -29,11 +29,11 @@ const OrderItem = (props) => {
             </div>
             <div className="order-item-details">
                 <header className="order-title">
-                    <Link to={"/advert/"+order.advert}>{ order.title }</Link>
+                    <Link to={"/advert/"+order.advert} title="Voir l'annonce en détails">{ order.title }</Link>
                 </header>
                 <ul className="order-date-and-author">
                     <li><FontAwesomeIcon icon={icons.faCalendarAlt } /> <span>{ makeDate(order.orderedOn ) }</span></li> 
-                    <li><Link to={"/user/"+order.client}><FontAwesomeIcon icon={icons.faUser} /> <span>{ order.clientLogin}</span></Link></li>
+                    <li><Link to={"/user/"+order.client} title={"Voir la boutique de "+order.clientLogin}><FontAwesomeIcon icon={icons.faUser} /> <span>{ order.clientLogin}</span></Link></li>
                 </ul>
                 <ul className="order-delivery-address">
                         <li>{ order.clientFirstName } { order.clientLastName }</li>
