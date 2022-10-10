@@ -327,7 +327,7 @@ const ViewAdvert = (props)=>{
             </section>
             <section className="advert-author-and-date">
                 <span className="advert-date"><FontAwesomeIcon icon={icons.faCalendarAlt} /> <span>{ makeDate(advert.addedOn) }</span></span>
-                <span className="advert-author"><Link to={"/user/"+advert.addedBy}><FontAwesomeIcon icon={icons.faUser} /> <span>{advert.addedByUser}</span></Link></span>
+                <span className="advert-author"><Link to={"/user/"+advert.addedBy} title={"Voir la boutique de "+advert.addedByUser}><FontAwesomeIcon icon={icons.faUser} /> <span>{advert.addedByUser}</span></Link></span>
                 <span className="advert-author-avg">{ advert.sellerAvgClientsNotes ? advert.sellerAvgClientsNotes.toFixed(1) : "?" }/5 ({ advert.sellerNbClientsNotes} { Math.abs(advert.sellerNbClientsNotes) <= 1 ? "vente" : "ventes" })</span>
             </section>
 
