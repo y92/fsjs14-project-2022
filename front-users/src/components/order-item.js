@@ -22,10 +22,10 @@ const OrderItem = (props) => {
         <li className="order-item" key={key}>
             <div className="order-item-pict">
                 { order.mainPict != null ? <CloudinaryContext cloudName={cloudName}>
-                <Image publicId={order.mainPict} alt="order-pict">
+                <Image publicId={order.mainPict} alt={order.title}>
                     <Transformation quality="auto" fetchFormat="auto" />
                 </Image>
-                </CloudinaryContext> : <img src={imgNone} alt="order-pict"/>}
+                </CloudinaryContext> : <img src={imgNone} alt={order.title}/>}
             </div>
             <div className="order-item-details">
                 <header className="order-title">

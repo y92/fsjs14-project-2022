@@ -164,11 +164,10 @@ const Profile = (props) => {
                   }}>
                 <section className="profile-avatar">
                     { photo !== null ? <CloudinaryContext cloudName={cloudName}>
-                            <Image publicId={photo} id="profileImg" alt="avatar">
+                            <Image publicId={photo} id="profileImg" alt={"avatar "+user.data.login}>
                                 <Transformation quality="auto" fetchFormat="auto" />
                             </Image>
-                    </CloudinaryContext> : <img src={defaultAvatar} alt="avatar" />}
-                        {/*photo && <img src="{photo}" alt="photo" />*/}
+                    </CloudinaryContext> : <img src={defaultAvatar} alt={"avatar "+user.data.login} />}
                 </section>
                 <section className="avatar-buttons">
                     <a class="button" onClick={(e) => {

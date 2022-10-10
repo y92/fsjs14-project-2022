@@ -83,10 +83,10 @@ const Basket = (props) => {
                             <li className="basket-item" key={"basket-item-"+elt.advertId}>
                                 <div className="basket-item-pict">
                                     { elt.mainPict != null ? <CloudinaryContext cloudName={cloudName}>
-                                        <Image publicId={elt.mainPict} alt="pict">
+                                        <Image publicId={elt.mainPict} alt={elt.title}>
                                             <Transformation quality="auto" fetchFormat="auto" />
                                         </Image>
-                                    </CloudinaryContext> : <img src={imgNone} alt="pict"/>}
+                                    </CloudinaryContext> : <img src={imgNone} alt={elt.title}/>}
                                 </div>
                                 <div className="basket-item-details">
                                     <p><Link to={"/advert/"+elt.advertId}>{elt.title}</Link></p>

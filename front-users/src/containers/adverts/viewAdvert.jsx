@@ -338,10 +338,10 @@ const ViewAdvert = (props)=>{
                 : <div className="advert-no-more-items">Produit épuisé</div>}
             <section className="advert-picture-big">
                 { advert.mainPict != null ? <CloudinaryContext cloudName={cloudName}>
-                    <Image publicId={advert.mainPict} alt="pict">
+                    <Image publicId={advert.mainPict} alt={advert.title}>
                         <Transformation quality="auto" fetchFormat="auto" />
                     </Image>
-                </CloudinaryContext> : <img src={imgNone} alt="pict"/>}
+                </CloudinaryContext> : <img src={imgNone} alt={advert.title}/>}
             </section>
             <form className="c-form" onSubmit={addToBasketForm}>
                 <p className="total-price">Prix total : {(selectedQuantity * advert.price).toFixed(2) } €</p>

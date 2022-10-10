@@ -201,12 +201,11 @@ const EditAdvert = (props) =>{
             {advert ? (advert.addedBy === user.data.id ? <form className="c-form" onSubmit={submitForm}>
                 { mainPict != null ? <CloudinaryContext cloudName={cloudName}>
                         <section className="advert-picture-big">
-                            <Image publicId={mainPict} id="advertMainPict" alt="pict">
+                            <Image publicId={mainPict} id="advertMainPict" alt={advert.title}>
                                 <Transformation quality="auto" fetchFormat="auto" />
                             </Image>
                         </section>
-                    </CloudinaryContext> : <section><img src={imgNone} alt="pict"/></section>}
-                        {/*photo && <img src="{photo}" alt="photo" />*/}
+                    </CloudinaryContext> : <section><img src={imgNone} alt={advert.title}/></section>}
 
                     <a className="button" onClick={(e) => {
                         e.preventDefault();

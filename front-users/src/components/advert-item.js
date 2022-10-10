@@ -23,10 +23,10 @@ const AdvertItem = (props) => {
             <header className="advert-title">{ advert.title }</header>
             <div className="advert-picture">
             { advert.mainPict != null ? <CloudinaryContext cloudName={cloudName}>
-                <Image publicId={advert.mainPict} alt="advert-pict">
+                <Image publicId={advert.mainPict} alt={advert.title}>
                     <Transformation quality="auto" fetchFormat="auto" />
                 </Image>
-            </CloudinaryContext> : <img src={imgNone} alt="advert-pict"/>}
+            </CloudinaryContext> : <img src={imgNone} alt={advert.title}/>}
             </div>
             <div className="advert-descr"><i>{ advert.description.substring(0, 32)}</i></div>
             <div className="advert-price"><FontAwesomeIcon icon={icons.faMoneyBill1Wave}/> <span>{advert.price.toFixed(2)} €</span></div>
